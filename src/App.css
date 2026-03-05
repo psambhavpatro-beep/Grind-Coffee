@@ -1,0 +1,10 @@
+/*
+  App.css — Roast & Origin
+  Global styles that cannot be handled by inline JS styles or the
+  injected CSS string in styles.js are placed here.
+  The Vite scaffold styles have been removed.
+*/
+
+#root {
+  min-height: 100vh;
+}

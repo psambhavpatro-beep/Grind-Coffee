@@ -1,0 +1,4 @@
+/* SPA redirect: serve index.html for all routes so React handles navigation client-side.
+   Without this, refreshing any page other than / returns a 404 on Netlify/Render. */
+/*    /index.html   200
+
