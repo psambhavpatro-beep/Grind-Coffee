@@ -6,11 +6,56 @@ import {
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
+  GoogleAuthProvider,
+  signInWithPopup
 } from "firebase/auth";
 import { db, auth } from "./firebase";
 
 // ─── AUTH ──────────────────────────────────────────────────────────
+
+const googleProvider = new GoogleAuthProvider();
+
+export const loginWithGoogle = async (role) => {
+  if (role === "admin") throw new Error("Google login not allowed for admin");
+
+  const cred = await signInWithPopup(auth, googleProvider);
+  const col = role === "vendor" ? "vendors" : "customers";
+  const snap = await getDoc(doc(db, col, cred.user.uid));
+
+  if (!snap.exists()) {
+    if (role === "customer") {
+      const newCust = {
+        id: cred.user.uid,
+        name: cred.user.displayName || "Coffee Lover",
+        email: cred.user.email,
+        phone: cred.user.phoneNumber || "",
+        role: "customer",
+        createdAt: serverTimestamp()
+      };
+      await setDoc(doc(db, "customers", cred.user.uid), newCust);
+      return newCust;
+    } else {
+      await setDoc(doc(db, "vendors", cred.user.uid), {
+        id: cred.user.uid, name: cred.user.displayName || "New Roastery", email: cred.user.email,
+        tagline: "", location: "", phone: cred.user.phoneNumber || "",
+        story: "", since: new Date().getFullYear().toString(),
+        avatar: cred.user.photoURL || "", approved: false, role: "vendor",
+        createdAt: serverTimestamp()
+      });
+      await signOut(auth);
+      throw new Error("Application submitted! Awaiting approval.");
+    }
+  }
+
+  const data = snap.data();
+  if (role === "vendor" && !data.approved) {
+    await signOut(auth);
+    throw new Error("Account pending admin approval");
+  }
+
+  return { id: snap.id, name: data.name, email: data.email, role };
+};
 
 export const signupCustomer = async (name, email, password, phone) => {
   const cred = await createUserWithEmailAndPassword(auth, email, password);
