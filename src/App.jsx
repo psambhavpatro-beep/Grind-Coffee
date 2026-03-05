@@ -178,8 +178,8 @@ export default function App() {
     catch (e) { pop("Error approving", "err"); }
   };
   const rejectVendor = async id => {
-    try { await api.rejectVendor(id); setVendors(prev => { const { [id]: _, ...rest } = prev; return rest; }); pop("Vendor rejected", "err"); }
-    catch (e) { pop("Error rejecting", "err"); }
+    try { await api.rejectVendor(id); setVendors(prev => { const { [id]: _, ...rest } = prev; return rest; }); pop("Vendor removed", "ok"); }
+    catch (e) { console.error(e); pop("Error: " + e.message, "err"); }
   };
 
   // ── CART ──
