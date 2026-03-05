@@ -1,7 +1,8 @@
 import {
   collection, doc, getDocs, getDoc,
   addDoc, setDoc, updateDoc, deleteDoc,
-  query, where, orderBy, serverTimestamp
+  query, where, orderBy, serverTimestamp,
+  onSnapshot
 } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
@@ -188,6 +189,14 @@ export const fetchAllOrders = async () => {
   const docs = snap.docs.map(d => ({ ...d.data(), id: d.id }));
   return docs.sort((a, b) => new Date(b.date) - new Date(a.date));
 };
+
+export const listenToAllOrders = (callback) => {
+  return onSnapshot(collection(db, "orders"), (snap) => {
+    const docs = snap.docs.map(d => ({ ...d.data(), id: d.id }));
+    callback(docs.sort((a, b) => new Date(b.date) - new Date(a.date)));
+  });
+};
+
 
 export const updateOrderStatus = async (orderId, status) => {
   await updateDoc(doc(db, "orders", orderId), { status });

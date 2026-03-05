@@ -201,7 +201,10 @@ export default function Dashboard({ user, products, vendors, orders, reviews, is
                                         <p style={{ color: "#5a4a3a", fontSize: 11, fontFamily: "sans-serif" }}>{products.filter(p => p.vendorId === v.id).length} products</p>
                                     </div>
                                 </div>
-                                <button style={S.ghostBtn} onClick={() => onVendor(v)}>View Profile</button>
+                                <div style={{ display: "flex", gap: 8 }}>
+                                    <button style={S.ghostBtn} onClick={() => onVendor(v)}>View Profile</button>
+                                    <button style={{ ...S.ghostBtn, color: "#e05050", borderColor: "#e05050" }} onClick={() => { if (window.confirm(`Remove ${v.name} from the platform?`)) onReject(v.id); }}>Remove</button>
+                                </div>
                             </div>
                         ))}
                     </div>

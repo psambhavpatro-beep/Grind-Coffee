@@ -54,11 +54,12 @@ export default function App() {
     setTimeout(() => setToast(null), 2800);
   }, []);
 
-  // ── LOAD DATA + AUTH PERSISTENCE ──
-  // Runs once on mount. Loads products/vendors, then watches Firebase Auth
-  // so the session survives page refreshes.
+  // ── AUTH PERSISTENCE ──
+  // Track order listener unsub so we can cancel it on logout
+  const [orderUnsub, setOrderUnsub] = useState(null);
+
+  // Runs once on mount
   useEffect(() => {
-    // 1. Always load catalogue data
     Promise.all([api.fetchProducts(), api.fetchVendors()])
       .then(([prods, fbVendors]) => {
         setProducts(prods);
@@ -66,17 +67,14 @@ export default function App() {
       })
       .catch(e => console.error("Catalogue load error:", e));
 
-    // 2. Listen for Firebase Auth state (handles page refresh)
     const unsub = onAuthStateChanged(auth, async firebaseUser => {
       if (!firebaseUser) {
-        // Not logged in (or just logged out)
         setUser(null);
         setLoading(false);
+        if (orderUnsub) orderUnsub();
         return;
       }
-      // Firebase user exists — re-hydrate app state
       try {
-        // Try customer profile first, then vendor
         let profile = await api.getUserProfile(firebaseUser.uid, "customer");
         if (!profile) profile = await api.getUserProfile(firebaseUser.uid, "vendor");
         if (profile) {
@@ -88,10 +86,10 @@ export default function App() {
             ]);
             setWishlist(prev => ({ ...prev, [profile.id]: ids }));
             setOrders(myOrds);
-          } else if (profile.role === "vendor") {
-            setOrders(await api.fetchAllOrders());
+          } else if (profile.role === "vendor" || profile.role === "admin") {
+            const unsubOrders = api.listenToAllOrders(setOrders);
+            setOrderUnsub(() => unsubOrders);
           }
-          // Admin sessions are not Firebase Auth — they are reset on refresh (by design)
         }
       } catch (e) {
         console.error("Auth restore error:", e);
@@ -100,7 +98,10 @@ export default function App() {
       }
     });
 
-    return () => unsub(); // cleanup listener on unmount
+    return () => {
+      unsub();
+      if (orderUnsub) orderUnsub();
+    };
   }, []);
 
   const isAdmin = user?.role === "admin";
@@ -127,11 +128,15 @@ export default function App() {
         setOrders(myOrds);
       } catch (e) { }
     } else {
-      try { setOrders(await api.fetchAllOrders()); } catch (e) { }
+      // Admin/vendor login triggers real-time listener
+      if (orderUnsub) orderUnsub();
+      const unsubOrders = api.listenToAllOrders(setOrders);
+      setOrderUnsub(() => unsubOrders);
     }
   };
 
   const logout = async () => {
+    if (orderUnsub) { orderUnsub(); setOrderUnsub(null); }
     try { await api.logout(); } catch (e) { }
     setUser(null); setView("shop"); setOrders([]); setWishlist({});
     pop("Signed out");
