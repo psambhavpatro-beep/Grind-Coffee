@@ -51,6 +51,14 @@ export const loginUser = async (email, password, role) => {
   return { id: snap.id, name: data.name, email: data.email, role };
 };
 
+export const getUserProfile = async (uid, role) => {
+  if (role === "admin") return null;
+  const col = role === "vendor" ? "vendors" : "customers";
+  const snap = await getDoc(doc(db, col, uid));
+  if (!snap.exists()) return null;
+  return { id: snap.id, ...snap.data(), role };
+};
+
 export const logoutUser = () => signOut(auth);
 export const logout = () => signOut(auth);    // alias for App.jsx
 
@@ -122,14 +130,18 @@ export const placeOrder = async (order) => {
 };
 
 export const fetchMyOrders = async (customerId) => {
-  const q = query(collection(db, "orders"), where("customerId", "==", customerId), orderBy("createdAt", "desc"));
+  // No orderBy to avoid mandatory composite index — sort client-side
+  const q = query(collection(db, "orders"), where("customerId", "==", customerId));
   const snap = await getDocs(q);
-  return snap.docs.map(d => ({ ...d.data(), id: d.id }));
+  const docs = snap.docs.map(d => ({ ...d.data(), id: d.id }));
+  return docs.sort((a, b) => new Date(b.date) - new Date(a.date));
 };
 
 export const fetchAllOrders = async () => {
-  const snap = await getDocs(query(collection(db, "orders"), orderBy("createdAt", "desc")));
-  return snap.docs.map(d => ({ ...d.data(), id: d.id }));
+  // No orderBy to avoid mandatory composite index — sort client-side
+  const snap = await getDocs(collection(db, "orders"));
+  const docs = snap.docs.map(d => ({ ...d.data(), id: d.id }));
+  return docs.sort((a, b) => new Date(b.date) - new Date(a.date));
 };
 
 export const updateOrderStatus = async (orderId, status) => {

@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
+import { auth } from "./firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 import { CSS, S } from "./styles";
 import { DEMO_VENDORS, FREE_DELIVERY_ABOVE, DELIVERY_FEE } from "./constants";
@@ -45,7 +47,6 @@ export default function App() {
   const [grindSel, setGrindSel] = useState({});
   const [toast, setToast] = useState(null);
   const [modalData, setModalData] = useState(null);
-  const [zone, setZone] = useState("");
   const [shopFilter, setShopFilter] = useState({ search: "", roast: "all", process: "all", sort: "default" });
 
   const pop = useCallback((msg, type = "ok") => {
@@ -53,20 +54,53 @@ export default function App() {
     setTimeout(() => setToast(null), 2800);
   }, []);
 
-  // ── LOAD DATA FROM FIREBASE ──
+  // ── LOAD DATA + AUTH PERSISTENCE ──
+  // Runs once on mount. Loads products/vendors, then watches Firebase Auth
+  // so the session survives page refreshes.
   useEffect(() => {
-    const load = async () => {
-      try {
-        const [prods, fbVendors] = await Promise.all([api.fetchProducts(), api.fetchVendors()]);
+    // 1. Always load catalogue data
+    Promise.all([api.fetchProducts(), api.fetchVendors()])
+      .then(([prods, fbVendors]) => {
         setProducts(prods);
         setVendors(v => ({ ...v, ...fbVendors }));
+      })
+      .catch(e => console.error("Catalogue load error:", e));
+
+    // 2. Listen for Firebase Auth state (handles page refresh)
+    const unsub = onAuthStateChanged(auth, async firebaseUser => {
+      if (!firebaseUser) {
+        // Not logged in (or just logged out)
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+      // Firebase user exists — re-hydrate app state
+      try {
+        // Try customer profile first, then vendor
+        let profile = await api.getUserProfile(firebaseUser.uid, "customer");
+        if (!profile) profile = await api.getUserProfile(firebaseUser.uid, "vendor");
+        if (profile) {
+          setUser(profile);
+          if (profile.role === "customer") {
+            const [ids, myOrds] = await Promise.all([
+              api.fetchWishlist(profile.id),
+              api.fetchMyOrders(profile.id),
+            ]);
+            setWishlist(prev => ({ ...prev, [profile.id]: ids }));
+            setOrders(myOrds);
+          } else if (profile.role === "vendor") {
+            setOrders(await api.fetchAllOrders());
+          }
+          // Admin sessions are not Firebase Auth — they are reset on refresh (by design)
+        }
       } catch (e) {
-        console.error("Firebase load error:", e);
+        console.error("Auth restore error:", e);
       } finally {
         setLoading(false);
       }
-    };
-    load();
+    });
+
+    return () => unsub(); // cleanup listener on unmount
   }, []);
 
   const isAdmin = user?.role === "admin";
