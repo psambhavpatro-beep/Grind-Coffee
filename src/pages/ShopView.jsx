@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { S } from "../styles";
 import { fmt } from "../utils";
 import { ROAST_C, DEF_IMG } from "../constants";
@@ -39,6 +40,7 @@ export function PCard({ p, v, onProd, onVendor, wished, onWish, rating }) {
 
 // ─── SHOP VIEW ────────────────────────────────────────────────────
 export default function ShopView({ products, allProducts, vendors, filter, setFilter, onProd, onVendor, isWished, onWish, avgRating }) {
+    const [showFilters, setShowFilters] = useState(false);
     const sf = (k, v) => setFilter(f => ({ ...f, [k]: v }));
     const featured = allProducts.filter(p => p.featured && vendors[p.vendorId]?.approved);
     const roastTypes = [...new Set(allProducts.map(p => p.roastType))].filter(Boolean);
@@ -48,7 +50,7 @@ export default function ShopView({ products, allProducts, vendors, filter, setFi
     return (
         <div>
             {/* Hero */}
-            <div style={S.hero}>
+            <div style={S.hero} className="hero-section">
                 <p style={S.heroEye}>⚡ Bengaluru's Fastest Coffee Delivery</p>
                 <h1 style={S.heroH}>Specialty coffee<br />in under 90 mins.</h1>
                 <p style={S.heroP}>Single-origin, freshly roasted, straight from Bengaluru's finest roasters — to your door.</p>
@@ -87,37 +89,69 @@ export default function ShopView({ products, allProducts, vendors, filter, setFi
                 </div>
             )}
 
-            {/* Filters */}
-            <div style={S.filtersBar}>
-                <div style={S.filterGroup}>
-                    <span style={S.filterLabel}>Roast</span>
-                    {["all", ...roastTypes].map(r => (
-                        <button key={r} style={{ ...S.filterChip, ...(filter.roast === r ? S.filterChipOn : {}) }} onClick={() => sf("roast", r)}>
-                            {r === "all" ? "All" : r}
-                        </button>
-                    ))}
-                </div>
-                <div style={S.filterGroup}>
-                    <span style={S.filterLabel}>Process</span>
-                    {["all", ...processes].map(p => (
-                        <button key={p} style={{ ...S.filterChip, ...(filter.process === p ? S.filterChipOn : {}) }} onClick={() => sf("process", p)}>
-                            {p === "all" ? "All" : p}
-                        </button>
-                    ))}
-                </div>
-                <select style={S.sortSelect} value={filter.sort} onChange={e => sf("sort", e.target.value)}>
-                    <option value="default">Sort: Featured</option>
-                    <option value="newest">Newest First</option>
-                    <option value="price-asc">Price: Low → High</option>
-                    <option value="price-desc">Price: High → Low</option>
-                </select>
-            </div>
-
-            <div style={{ padding: "0 26px 8px", maxWidth: 1200, margin: "0 auto" }}>
-                <p style={{ color: "#4a3a2a", fontSize: 12, fontFamily: "sans-serif" }}>
+            {/* Filter Toggle Bar */}
+            <div style={{ padding: "16px 26px 8px", maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <p style={{ color: "#4a3a2a", fontSize: 13, fontFamily: "sans-serif", fontWeight: 600 }}>
                     {products.length} coffee{products.length !== 1 ? "s" : ""} found
                 </p>
+                <div style={{ display: "flex", gap: 8 }}>
+                    {hasFilter && (
+                        <button style={{ background: "none", border: "2px solid #ddd", borderRadius: 20, padding: "5px 12px", fontSize: 11, fontFamily: "sans-serif", cursor: "pointer", fontWeight: 600 }} onClick={() => setFilter({ search: "", roast: "all", process: "all", sort: "default" })}>
+                            Clear All
+                        </button>
+                    )}
+                    <button style={{ background: "#111", color: "#fff", border: "none", borderRadius: 20, padding: "7px 16px", fontSize: 12, fontFamily: "sans-serif", fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }} onClick={() => setShowFilters(true)}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                        Filters & Sort
+                    </button>
+                </div>
             </div>
+
+            {/* Filters Modal */}
+            {showFilters && (
+                <div style={S.overlay} onClick={() => setShowFilters(false)}>
+                    <div style={{ ...S.modal, maxWidth: 400 }} onClick={e => e.stopPropagation()}>
+                        <button style={S.mClose} onClick={() => setShowFilters(false)}>✕</button>
+                        <h2 style={S.mTitle}>Filters & Sort</h2>
+
+                        <div style={{ marginBottom: 20 }}>
+                            <span style={S.filterLabel}>Sort By</span>
+                            <select style={{ ...S.sortSelect, width: "100%", marginTop: 6 }} value={filter.sort} onChange={e => sf("sort", e.target.value)}>
+                                <option value="default">Featured</option>
+                                <option value="newest">Newest First</option>
+                                <option value="price-asc">Price: Low to High</option>
+                                <option value="price-desc">Price: High to Low</option>
+                            </select>
+                        </div>
+
+                        <div style={{ marginBottom: 20 }}>
+                            <span style={S.filterLabel}>Roast Level</span>
+                            <div style={{ ...S.filterGroup, marginTop: 6 }}>
+                                {["all", ...roastTypes].map(r => (
+                                    <button key={r} style={{ ...S.filterChip, ...(filter.roast === r ? S.filterChipOn : {}) }} onClick={() => sf("roast", r)}>
+                                        {r === "all" ? "All Roasts" : r}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div style={{ marginBottom: 24 }}>
+                            <span style={S.filterLabel}>Process</span>
+                            <div style={{ ...S.filterGroup, marginTop: 6 }}>
+                                {["all", ...processes].map(p => (
+                                    <button key={p} style={{ ...S.filterChip, ...(filter.process === p ? S.filterChipOn : {}) }} onClick={() => sf("process", p)}>
+                                        {p === "all" ? "All Processes" : p}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <button style={{ ...S.ctaBtn, width: "100%" }} onClick={() => setShowFilters(false)}>
+                            Show {products.length} Coffees
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {products.length === 0 ? (
                 <div style={{ textAlign: "center", padding: "60px 28px" }}>

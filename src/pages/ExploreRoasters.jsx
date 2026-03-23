@@ -39,7 +39,7 @@ export default function ExploreRoasters({ vendors, products, onVendor }) {
                 <div style={{ background: "#0e0906", borderBottom: "1px solid #1e1208", padding: "48px 28px" }}>
                     <div style={{ maxWidth: 1060, margin: "0 auto" }}>
                         <p style={S.eyeLabel}>✦ Featured Roaster</p>
-                        <div style={S.featRoasterCard} className="feat-card" onClick={() => onVendor(featured)}>
+                        <div style={S.featRoasterCard} className="feat-card feat-roaster" onClick={() => onVendor(featured)}>
                             <img src={featured.avatar || DEF_IMG} alt={featured.name} style={S.featRoasterImg} />
                             <div style={{ padding: "32px", flex: 1 }}>
                                 <p style={{ color: "#aaa", fontSize: 12, fontFamily: "sans-serif", marginBottom: 6 }}>📍 {featured.location || "India"}</p>
@@ -81,7 +81,7 @@ export default function ExploreRoasters({ vendors, products, onVendor }) {
                     <p style={{ color: "#4a3a2a", fontFamily: "sans-serif" }}>No roasters match your search.</p>
                 </div>
             ) : (
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(280px,1fr))", gap: 22, padding: "20px 28px 60px", maxWidth: 1060, margin: "0 auto" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(280px,1fr))", gap: 22, padding: "20px 28px 60px", maxWidth: 1060, margin: "0 auto" }} className="roaster-grid">
                     {filtered.map(v => (
                         <div key={v.id} style={S.roasterCard} className="rcard" onClick={() => onVendor(v)}>
                             <div style={{ position: "relative", height: 180, overflow: "hidden" }}>

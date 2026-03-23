@@ -62,6 +62,7 @@ export const signupCustomer = async (name, email, password, phone) => {
   const cred = await createUserWithEmailAndPassword(auth, email, password);
   await setDoc(doc(db, "customers", cred.user.uid), {
     id: cred.user.uid, name, email, phone, role: "customer",
+    defaultAddress: null,
     createdAt: serverTimestamp()
   });
   return { id: cred.user.uid, name, email, role: "customer" };
@@ -81,9 +82,21 @@ export const signupVendor = async (data) => {
 
 export const loginUser = async (email, password, role) => {
   if (role === "admin") {
-    if (email === "admin" && password === "admin123")
-      return { id: "admin", name: "Owner", role: "admin", email: "owner@roastorigin.com" };
-    throw new Error("Invalid admin credentials");
+    if (email !== "admin" || password !== "admin123")
+      throw new Error("Invalid admin credentials");
+    // Sign into Firebase Auth with a real admin account so Firestore writes work.
+    // Set VITE_ADMIN_EMAIL + VITE_ADMIN_PASSWORD in your .env file.
+    const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
+    const adminPass = import.meta.env.VITE_ADMIN_PASSWORD;
+    if (adminEmail && adminPass) {
+      try {
+        await signInWithEmailAndPassword(auth, adminEmail, adminPass);
+      } catch (e) {
+        console.warn("Admin Firebase Auth sign-in failed:", e.message);
+        // Continue anyway — Firestore rules may still allow it in open-rule projects.
+      }
+    }
+    return { id: "admin", name: "Owner", role: "admin", email: "owner@roastorigin.com" };
   }
   const cred = await signInWithEmailAndPassword(auth, email, password);
   const col = role === "vendor" ? "vendors" : "customers";
@@ -103,6 +116,11 @@ export const getUserProfile = async (uid, role) => {
   const snap = await getDoc(doc(db, col, uid));
   if (!snap.exists()) return null;
   return { id: snap.id, ...snap.data(), role };
+};
+
+export const updateCustomerAddress = async (uid, address) => {
+  if (!uid) return;
+  await updateDoc(doc(db, "customers", uid), { defaultAddress: address });
 };
 
 export const logoutUser = () => signOut(auth);
@@ -232,4 +250,42 @@ export const toggleWishlist = async (customerId, productId, isWished) => {
   } else {
     await setDoc(doc(db, "wishlist", id), { customerId, productId });
   }
+};
+
+// ─── UTILITIES ─────────────────────────────────────────────────────
+
+export const uploadImageToImgBB = async (file) => {
+  const apiKey = import.meta.env.VITE_IMGBB_API_KEY;
+  if (!apiKey) throw new Error("VITE_IMGBB_API_KEY is not set in environment variables");
+
+  const formData = new FormData();
+  formData.append("image", file);
+
+  const res = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
+    method: "POST",
+    body: formData,
+  });
+
+  const data = await res.json();
+  if (!data.success) {
+    throw new Error(data.error?.message || "Failed to upload image to ImgBB");
+  }
+
+  return data.data.display_url;
+};
+
+// ─── SHIPROCKET ────────────────────────────────────────────────────
+// Called after a successful order write. Triggers the Vercel Serverless Function
+// that authenticates with Shiprocket, creates a shipment, and writes
+// the tracking AWB back to the Firestore order document.
+// This is fire-and-forget — the caller .catch()es any errors.
+export const triggerShiprocket = async (orderId) => {
+  const res = await fetch("/api/create-shiprocket-shipment", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ orderId })
+  });
+  const result = await res.json();
+  if (result.error) throw new Error(result.error);
+  return result.data; // { trackingId, trackingUrl }
 };

@@ -68,8 +68,8 @@ export default function AuthModal({ mode, loginType, setLoginType, onClose, onSu
     const lbl = { customer: "Customer", vendor: "Vendor", admin: "Owner" };
 
     return (
-        <div style={S.overlay} onClick={onClose}>
-            <div style={S.modal} onClick={e => e.stopPropagation()}>
+        <div style={S.overlay} className="modal-overlay" onClick={onClose}>
+            <div style={S.modal} className="modal-box" onClick={e => e.stopPropagation()}>
                 <button style={S.mClose} onClick={onClose}>✕</button>
                 <h2 style={S.mTitle}>{mode === "login" ? "Sign In" : "Create Account"}</h2>
 

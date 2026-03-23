@@ -1,30 +1,23 @@
 import { S } from "../styles";
 import { fmt } from "../utils";
-import { GRINDS, FREE_DELIVERY_ABOVE } from "../constants";
+import { GRINDS, DELIVERY_FEE } from "../constants";
 
 export default function CartDrawer({ cart, total, onQty, onRemove, onClose, onCheckout }) {
     const sub = cart.reduce((s, i) => s + i.unitPrice * i.qty, 0);
-    const pct = Math.min(100, Math.round((sub / FREE_DELIVERY_ABOVE) * 100));
-    const rem = FREE_DELIVERY_ABOVE - sub;
 
     return (
         <div style={S.drawerOv} onClick={onClose}>
-            <div style={S.drawer} onClick={e => e.stopPropagation()}>
+            <div style={S.drawer} className="drawer-inner" onClick={e => e.stopPropagation()}>
                 {/* Header */}
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
                     <h3 style={{ fontSize: 20, fontWeight: 700 }}>Cart ({cart.reduce((s, i) => s + i.qty, 0)})</h3>
                     <button style={{ background: "none", border: "none", color: "#888", fontSize: 18, cursor: "pointer" }} onClick={onClose}>✕</button>
                 </div>
 
-                {/* Free delivery progress */}
+                {/* Delivery fee note */}
                 {cart.length > 0 && (
                     <div style={{ marginBottom: 14 }}>
-                        {rem > 0
-                            ? <p style={{ fontSize: 11, fontFamily: "sans-serif", color: "#888", marginBottom: 6 }}>Add <strong style={{ color: "#16a34a" }}>{fmt(rem)}</strong> more for free delivery</p>
-                            : <p style={{ fontSize: 11, fontFamily: "sans-serif", color: "#16a34a", fontWeight: 700, marginBottom: 6 }}>🎉 Free delivery unlocked!</p>}
-                        <div style={{ height: 4, background: "#f0f0f0", borderRadius: 4, overflow: "hidden" }}>
-                            <div style={{ height: "100%", width: `${pct}%`, background: "#16a34a", borderRadius: 4, transition: "width .3s" }} />
-                        </div>
+                        <p style={{ fontSize: 11, fontFamily: "sans-serif", color: "#888", marginBottom: 6 }}>Flat delivery fee: <strong style={{ color: "#1b4332" }}>₹{DELIVERY_FEE}</strong></p>
                     </div>
                 )}
 

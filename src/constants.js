@@ -1,19 +1,21 @@
-// ─── GRIND OPTIONS ───────────────────────────────────────────────────
+// ─── BREWING METHODS (shown as grind selector on product page) ───────
 export const GRINDS = [
-    { id: "whole", label: "Whole Bean" },
-    { id: "coarse", label: "Coarse (French Press)" },
-    { id: "med-coarse", label: "Med-Coarse (Pour Over)" },
-    { id: "medium", label: "Medium (Drip)" },
-    { id: "med-fine", label: "Med-Fine (AeroPress)" },
-    { id: "fine", label: "Fine (Espresso)" },
-    { id: "xfine", label: "Extra Fine (Turkish)" },
+    { id: "whole", label: "Whole Bean", sub: "Grind yourself" },
+    { id: "espresso", label: "Espresso", sub: "Fine grind" },
+    { id: "aeropress", label: "AeroPress", sub: "Fine-Medium grind" },
+    { id: "pour-over", label: "Pour Over / V60", sub: "Medium-Fine grind" },
+    { id: "drip", label: "Drip / Filter", sub: "Medium grind" },
+    { id: "french", label: "French Press", sub: "Coarse grind" },
+    { id: "cold-brew", label: "Cold Brew", sub: "Extra Coarse grind" },
+    { id: "moka", label: "Moka Pot", sub: "Fine grind" },
+    { id: "turkish", label: "Turkish Coffee", sub: "Extra Fine grind" },
 ];
 
 // ─── COLOUR MAPS ─────────────────────────────────────────────────────
 export const ROAST_C = {
-    Light: "#16a34a",
-    "Medium-Light": "#15803d",
-    Medium: "#166534",
+    Light: "#40916c",
+    "Medium-Light": "#2d6a4f",
+    Medium: "#1b4332",
     "Medium-Dark": "#14532d",
     Dark: "#052e16",
 };
@@ -21,15 +23,14 @@ export const ROAST_C = {
 export const STATUS_C = {
     confirmed: "#2563eb",
     preparing: "#d97706",
-    "out for delivery": "#16a34a",
-    delivered: "#15803d",
+    "out for delivery": "#1b4332",
+    delivered: "#2d6a4f",
     cancelled: "#dc2626",
     pending: "#d97706",
 };
 
 // ─── DELIVERY ─────────────────────────────────────────────────────────
-export const DELIVERY_FEE = 29;
-export const FREE_DELIVERY_ABOVE = 599;
+export const DELIVERY_FEE = 38;
 
 export const BLR_ZONES = [
     { id: "indiranagar", label: "Indiranagar", eta: 45 },

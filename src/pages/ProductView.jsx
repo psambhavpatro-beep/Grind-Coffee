@@ -1,16 +1,24 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { S } from "../styles";
 import { fmt } from "../utils";
-import { GRINDS, ROAST_C, DELIVERY_FEE, FREE_DELIVERY_ABOVE, DEF_IMG } from "../constants";
+import { GRINDS, ROAST_C, DELIVERY_FEE, DEF_IMG } from "../constants";
 
-export default function ProductView({ product: p, vendor: v, grind, setGrind, onAdd, onBack, onVendor, isWished, onWish, reviews, avgRating, onReview, user, onLoad }) {
+export default function ProductView({ product: p, vendor: v, grind, setGrind, onAdd, onBack, onVendor, isWished, onWish, reviews, avgRating, onReview, user, onLoad, onOpenCart }) {
     useEffect(() => { if (onLoad) onLoad(); }, [p.id]);
+    const [addedMsg, setAddedMsg] = useState(false);
+
+    const handleAdd = () => {
+        if (!grind) return;
+        onAdd(p, grind);
+        setAddedMsg(true);
+        setTimeout(() => setAddedMsg(false), 4000);
+    };
 
     return (
-        <div style={S.prodPage}>
+        <div style={S.prodPage} className="prod-page">
             <button style={S.backBtn} onClick={onBack}>← Back to Shop</button>
 
-            <div style={S.prodLayout}>
+            <div style={S.prodLayout} className="prod-layout">
                 {/* LEFT — Image + badges + reviews summary */}
                 <div>
                     <div style={{ position: "relative" }}>
@@ -75,34 +83,42 @@ export default function ProductView({ product: p, vendor: v, grind, setGrind, on
                         })}
                     </div>
 
-                    {/* Grind selector */}
-                    <p style={{ ...S.specLbl, marginBottom: 10, marginTop: 24 }}>Select Grind Size</p>
-                    <div style={S.grindGrid}>
+                    {/* Brewing Method selector */}
+                    <p style={{ ...S.specLbl, marginBottom: 10, marginTop: 24 }}>Brewing Method</p>
+                    <div style={S.grindGrid} className="grind-grid">
                         {GRINDS.map(g => (
-                            <button key={g.id} style={{ ...S.grindBtn, ...(grind === g.id ? S.grindOn : {}) }} onClick={() => setGrind(g.id)}>
-                                {g.label}
+                            <button key={g.id} style={{ ...S.grindBtn, ...(grind === g.id ? S.grindOn : {}), display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 1 }} onClick={() => setGrind(g.id)}>
+                                <span style={{ fontWeight: 700, fontSize: 12 }}>{g.label}</span>
+                                <span style={{ fontSize: 10, opacity: 0.7, fontWeight: 400 }}>{g.sub}</span>
                             </button>
                         ))}
                     </div>
-                    {!grind && <p style={{ color: "#4a3a2a", fontSize: 11, marginTop: 7, fontFamily: "sans-serif" }}>Choose a grind size to add to cart</p>}
+                    {!grind && <p style={{ color: "#4a3a2a", fontSize: 11, marginTop: 7, fontFamily: "sans-serif" }}>Choose your brewing method to add to cart</p>}
 
-                    {/* Price + CTA */}
-                    <div style={S.priceCta}>
+                    {/* Price + CTA — desktop only */}
+                    <div style={S.priceCta} className="price-cta-desktop">
                         <div>
                             <div style={S.priceMain}>{fmt(p.price)}</div>
                             <div style={{ color: "#6b7280", fontSize: 11, fontFamily: "sans-serif" }}>per 250g bag</div>
                         </div>
-                        <button style={{ ...S.ctaBtn, opacity: grind ? 1 : .4, cursor: grind ? "pointer" : "default" }} onClick={() => onAdd(p, grind)}>
-                            Add to Cart
-                        </button>
+                        {addedMsg ? (
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6 }}>
+                                <span style={{ color: "#1b4332", fontFamily: "sans-serif", fontSize: 13, fontWeight: 700 }}>✓ Added to cart!</span>
+                                <button style={{ ...S.ctaBtn, background: "#1b4332", padding: "9px 18px", fontSize: 13 }} onClick={onOpenCart}>View Cart →</button>
+                            </div>
+                        ) : (
+                            <button style={{ ...S.ctaBtn, opacity: grind ? 1 : .4, cursor: grind ? "pointer" : "default" }} onClick={handleAdd}>
+                                Add to Cart
+                            </button>
+                        )}
                     </div>
 
                     {/* Delivery ETA */}
                     <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 10, padding: "12px 16px", marginTop: 14, display: "flex", alignItems: "center", gap: 10 }}>
                         <span style={{ fontSize: 22 }}>⚡</span>
                         <div>
-                            <p style={{ fontSize: 13, fontWeight: 700, color: "#15803d", fontFamily: "sans-serif" }}>Express Delivery · Bengaluru</p>
-                            <p style={{ fontSize: 12, color: "#16a34a", fontFamily: "sans-serif" }}>Order now → arrives in 45–90 mins · ₹{DELIVERY_FEE} delivery (free above ₹{FREE_DELIVERY_ABOVE})</p>
+                            <p style={{ fontSize: 13, fontWeight: 700, color: "#2d6a4f", fontFamily: "sans-serif" }}>Express Delivery · Bengaluru</p>
+                            <p style={{ fontSize: 12, color: "#1b4332", fontFamily: "sans-serif" }}>Order now → arrives in 45–90 mins · Flat ₹{DELIVERY_FEE} delivery fee</p>
                         </div>
                     </div>
 
@@ -114,6 +130,29 @@ export default function ProductView({ product: p, vendor: v, grind, setGrind, on
                     )}
                     {!user && <p style={{ color: "#4a3a2a", fontSize: 12, marginTop: 16, fontFamily: "sans-serif" }}>Sign in to save this coffee or write a review.</p>}
                 </div>
+            </div>
+
+            {/* ── STICKY CART BAR — mobile only ── */}
+            <div className="sticky-cart-bar">
+                <div>
+                    <div style={{ fontSize: 18, fontWeight: 700 }}>{fmt(p.price)}</div>
+                    <div style={{ color: "#6b7280", fontSize: 11, fontFamily: "sans-serif" }}>
+                        {grind ? GRINDS.find(g => g.id === grind)?.label : "Pick brewing method ↑"}
+                    </div>
+                </div>
+                {addedMsg ? (
+                    <button style={{ ...S.ctaBtn, background: "#1b4332", padding: "11px 18px" }} onClick={onOpenCart}>
+                        View Cart →
+                    </button>
+                ) : (
+                    <button
+                        style={{ ...S.ctaBtn, opacity: grind ? 1 : .45, cursor: grind ? "pointer" : "default", padding: "12px 20px" }}
+                        onClick={handleAdd}
+                        disabled={!grind}
+                    >
+                        Add to Cart
+                    </button>
+                )}
             </div>
 
             {/* Reviews */}

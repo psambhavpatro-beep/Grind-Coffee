@@ -3,7 +3,7 @@ import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
 import { CSS, S } from "./styles";
-import { DEMO_VENDORS, FREE_DELIVERY_ABOVE, DELIVERY_FEE } from "./constants";
+import { DEMO_VENDORS, DELIVERY_FEE } from "./constants";
 import { uid } from "./utils";
 import * as api from "./api";
 
@@ -34,7 +34,8 @@ export default function App() {
   const [modal, setModal] = useState(null);   // login | signup | checkout | review
   const [loginType, setLoginType] = useState("customer");
   const [products, setProducts] = useState([]);
-  const [vendors, setVendors] = useState({ ...DEMO_VENDORS });
+  const [vendors, setVendors] = useState({});
+
   const [orders, setOrders] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -63,7 +64,8 @@ export default function App() {
     Promise.all([api.fetchProducts(), api.fetchVendors()])
       .then(([prods, fbVendors]) => {
         setProducts(prods);
-        setVendors(v => ({ ...v, ...fbVendors }));
+        setVendors(fbVendors);
+
       })
       .catch(e => console.error("Catalogue load error:", e));
 
@@ -111,7 +113,7 @@ export default function App() {
   // ── AUTH ──
   const refreshVendors = async () => {
     const fbV = await api.fetchVendors();
-    setVendors({ ...DEMO_VENDORS, ...fbV });
+    setVendors(fbV);
   };
 
   const afterLogin = async u => {
@@ -178,8 +180,14 @@ export default function App() {
     catch (e) { pop("Error approving", "err"); }
   };
   const rejectVendor = async id => {
-    try { await api.rejectVendor(id); setVendors(prev => { const { [id]: _, ...rest } = prev; return rest; }); pop("Vendor removed", "ok"); }
-    catch (e) { console.error(e); pop("Error: " + e.message, "err"); }
+    try {
+      await api.rejectVendor(id);
+      await refreshVendors();
+      pop("Vendor removed ✓");
+    } catch (e) {
+      console.error("Remove vendor error:", e);
+      pop("Error removing vendor: " + e.message, "err");
+    }
   };
 
   // ── CART ──
@@ -200,21 +208,30 @@ export default function App() {
   const cartCount = cart.reduce((s, i) => s + i.qty, 0);
   const cartTotal = cart.reduce((s, i) => s + i.unitPrice * i.qty, 0);
 
-  // ── ORDERS ──
-  const placeOrder = async address => {
+  const placeOrder = async (address, paymentMeta = null) => {
     if (!user) { pop("Sign in to place an order", "err"); setModal("login"); return; }
     const order = {
       id: "ORD-" + uid().toUpperCase(),
       customerId: user.id, customerName: user.name, customerEmail: user.email,
       items: cart.map(i => ({ name: i.product.name, grind: i.grind, qty: i.qty, unitPrice: i.unitPrice, vendorId: i.product.vendorId })),
-      total: cartTotal + (cartTotal < FREE_DELIVERY_ABOVE ? DELIVERY_FEE : 0),
+      total: cartTotal + DELIVERY_FEE,
       status: "confirmed", date: new Date().toISOString(), address,
+      // Payment info
+      paymentStatus: paymentMeta ? "paid" : "cod",
+      razorpayOrderId: paymentMeta?.razorpayOrderId || null,
+      razorpayPaymentId: paymentMeta?.razorpayPaymentId || null,
+      // Shiprocket tracking — populated by Cloud Function after shipment creation
+      trackingId: null,
+      trackingUrl: null,
     };
     try {
       await api.placeOrder(order);
       setOrders(prev => [order, ...prev]);
       clearCart(); setModal(null); setCartOpen(false);
       pop("Order placed! 🎉"); setView("orders");
+      // Trigger Shiprocket shipment creation in the background (non-blocking)
+      // TEMPORARILY DISABLED: User is handling shipping manually for now since Multi-Vendor locations aren't set up.
+      // api.triggerShiprocket(order.id).catch(e => console.warn("Shiprocket trigger failed:", e.message));
     } catch (e) { pop("Error placing order", "err"); }
   };
   const updateOrderStatus = async (id, status) => {
@@ -288,6 +305,7 @@ export default function App() {
     if (extra.product !== undefined) setSelProduct(extra.product);
     if (extra.editProd !== undefined) setEditProd(extra.editProd);
     setView(v);
+    window.scrollTo(0, 0);
   };
 
   // ── DEV-ONLY: SEED FIREBASE ──
@@ -309,7 +327,7 @@ export default function App() {
   if (loading) return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh", background: "#f8f9f5", flexDirection: "column", gap: 16 }}>
       <div style={{ fontSize: 40 }}>☕</div>
-      <p style={{ fontFamily: "sans-serif", color: "#888", fontSize: 15 }}>Loading Roast &amp; Origin…</p>
+      <p style={{ fontFamily: "sans-serif", color: "#888", fontSize: 15 }}>Loading Grind…</p>
     </div>
   );
 
@@ -321,7 +339,7 @@ export default function App() {
 
       {/* Seed button — dev only, hidden in production builds */}
       {import.meta.env.DEV && products.length === 0 && (
-        <button onClick={seedFirebase} style={{ position: "fixed", bottom: 20, right: 20, zIndex: 9999, background: "#16a34a", color: "#fff", border: "none", padding: "12px 20px", borderRadius: 8, cursor: "pointer", fontFamily: "sans-serif", fontWeight: 700, fontSize: 13, boxShadow: "0 4px 12px rgba(0,0,0,.2)" }}>
+        <button onClick={seedFirebase} style={{ position: "fixed", bottom: 20, right: 20, zIndex: 9999, background: "#1b4332", color: "#fff", border: "none", padding: "12px 20px", borderRadius: 8, cursor: "pointer", fontFamily: "sans-serif", fontWeight: 700, fontSize: 13, boxShadow: "0 4px 12px rgba(0,0,0,.2)" }}>
           🌱 Seed Firebase
         </button>
       )}
@@ -338,7 +356,7 @@ export default function App() {
 
       <main>
         {view === "shop" && <ShopView products={filteredProducts} allProducts={products} vendors={vendors} filter={shopFilter} setFilter={setShopFilter} onProd={p => nav("product", { product: p })} onVendor={v => nav("roaster", { vendor: v })} isWished={isWished} onWish={toggleWish} avgRating={avgRating} />}
-        {view === "product" && selProduct && <ProductView onLoad={() => loadReviews(selProduct.id)} product={selProduct} vendor={vendors[selProduct.vendorId]} grind={grindSel[selProduct.id] || ""} setGrind={g => setGrindSel(s => ({ ...s, [selProduct.id]: g }))} onAdd={addCart} onBack={() => nav("shop")} onVendor={v => nav("roaster", { vendor: v })} isWished={isWished(selProduct.id)} onWish={() => toggleWish(selProduct.id)} reviews={productReviews(selProduct.id)} avgRating={avgRating(selProduct.id)} onReview={user && isCust ? () => { setModalData({ productId: selProduct.id }); setModal("review"); } : null} user={user} />}
+        {view === "product" && selProduct && <ProductView onLoad={() => loadReviews(selProduct.id)} product={selProduct} vendor={vendors[selProduct.vendorId]} grind={grindSel[selProduct.id] || ""} setGrind={g => setGrindSel(s => ({ ...s, [selProduct.id]: g }))} onAdd={addCart} onBack={() => nav("shop")} onVendor={v => nav("roaster", { vendor: v })} isWished={isWished(selProduct.id)} onWish={() => toggleWish(selProduct.id)} reviews={productReviews(selProduct.id)} avgRating={avgRating(selProduct.id)} onReview={user && isCust ? () => { setModalData({ productId: selProduct.id }); setModal("review"); } : null} user={user} onOpenCart={() => setCartOpen(true)} />}
         {view === "roaster" && selVendor && <RoasterPage vendor={selVendor} products={products.filter(p => p.vendorId === selVendor.id)} onProd={p => nav("product", { product: p })} onBack={() => nav("shop")} isWished={isWished} onWish={toggleWish} avgRating={avgRating} />}
         {view === "roasters" && <ExploreRoasters vendors={vendors} products={products} onVendor={v => nav("roaster", { vendor: v })} />}
         {view === "wishlist" && <WishlistView items={myWishlist} onProd={p => nav("product", { product: p })} onWish={toggleWish} onBack={() => nav("shop")} />}

@@ -7,6 +7,7 @@ import OrdersView from "./OrdersView";
 
 export default function Dashboard({ user, products, vendors, orders, reviews, isAdmin, onAdd, onEdit, onDel, onToggleFeat, onApprove, onReject, onVendor, onSaveProfile, onOrders }) {
     const [tab, setTab] = useState("overview");
+    const [uploading, setUploading] = useState(false);
     const [pf, setPf] = useState(!isAdmin ? { ...vendors[user.id] } : {});
     const sp = (k, v) => setPf(x => ({ ...x, [k]: v }));
 
@@ -25,7 +26,7 @@ export default function Dashboard({ user, products, vendors, orders, reviews, is
         : [["overview", "Overview"], ["products", "Products"], ["profile", "My Profile"], ["reviews", "My Reviews"]];
 
     return (
-        <div style={S.dash}>
+        <div style={S.dash} className="dash-wrap">
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24 }}>
                 <div>
                     <h2 style={S.dashH}>{isAdmin ? "Owner Dashboard" : "Vendor Dashboard"}</h2>
@@ -37,7 +38,7 @@ export default function Dashboard({ user, products, vendors, orders, reviews, is
             </div>
 
             {/* Tabs */}
-            <div style={S.tabs}>
+            <div style={S.tabs} className="dash-tabs">
                 {tabs.map(([id, lbl]) => (
                     <button key={id} style={{ ...S.tab, ...(tab === id ? S.tabOn : {}) }} onClick={() => setTab(id)}>
                         {id === "vendors" && pending.length > 0 ? `${lbl} (${pending.length})` : lbl}
@@ -48,7 +49,7 @@ export default function Dashboard({ user, products, vendors, orders, reviews, is
             {/* ── OVERVIEW ── */}
             {tab === "overview" && (
                 <>
-                    <div style={S.statsRow}>
+                    <div style={S.statsRow} className="stats-row">
                         <StatCard label="Products" value={products.length} />
                         <StatCard label="Total Revenue" value={fmt(revenue)} />
                         <StatCard label="Orders" value={myOrders.length} />
@@ -106,7 +107,7 @@ export default function Dashboard({ user, products, vendors, orders, reviews, is
 
             {/* ── PRODUCTS TABLE ── */}
             {tab === "products" && (
-                <div style={{ overflowX: "auto" }}>
+                <div style={{ overflowX: "auto" }} className="dash-table-wrap">
                     <table style={S.table}>
                         <thead><tr>
                             {["Product", "Origin", "Process", "Roast", isAdmin ? "Vendor" : null, "Price", "Stock", "Featured", ""].filter(Boolean).map(h => <th key={h} style={S.th}>{h}</th>)}
@@ -148,8 +149,37 @@ export default function Dashboard({ user, products, vendors, orders, reviews, is
             {tab === "profile" && !isAdmin && (
                 <div style={{ maxWidth: 640 }}>
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
-                        {[["Roastery Name", "name"], ["Tagline", "tagline"], ["Location", "location"], ["Phone", "phone"], ["Website", "website"], ["Roasting Since", "since"], ["Avatar / Logo URL", "avatar"]].map(([lbl, k]) => (
-                            <div key={k} style={{ gridColumn: k === "avatar" || k === "tagline" ? "1/-1" : undefined }}>
+                        {/* Avatar Upload */}
+                        <div style={{ gridColumn: "1/-1" }}>
+                            <label style={S.fLabel}>Avatar / Logo *</label>
+                            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                                {pf.avatar && <img src={pf.avatar} alt="Avatar" style={{ width: 60, height: 60, objectFit: "cover", borderRadius: "50%", border: "1px solid #ddd" }} />}
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={async (e) => {
+                                        const file = e.target.files[0];
+                                        if (!file) return;
+                                        try {
+                                            setUploading(true);
+                                            const { uploadImageToImgBB } = await import("../api");
+                                            const url = await uploadImageToImgBB(file);
+                                            sp("avatar", url);
+                                        } catch (err) {
+                                            alert(err.message);
+                                        } finally {
+                                            setUploading(false);
+                                        }
+                                    }}
+                                    style={{ ...S.inp, padding: "8px 12px", cursor: "pointer", background: "#f8f9f5" }}
+                                    disabled={uploading}
+                                />
+                                {uploading && <span style={{ color: "#888", fontSize: 13, fontFamily: "sans-serif" }}>Uploading...</span>}
+                            </div>
+                        </div>
+
+                        {[["Roastery Name", "name"], ["Tagline", "tagline"], ["Location", "location"], ["Phone", "phone"], ["Website", "website"], ["Roasting Since", "since"]].map(([lbl, k]) => (
+                            <div key={k} style={{ gridColumn: k === "tagline" ? "1/-1" : undefined }}>
                                 <label style={S.fLabel}>{lbl}</label>
                                 <input style={S.inp} value={pf[k] || ""} onChange={e => sp(k, e.target.value)} />
                             </div>
@@ -160,80 +190,90 @@ export default function Dashboard({ user, products, vendors, orders, reviews, is
                         </div>
                     </div>
                     <div style={{ display: "flex", gap: 12, marginTop: 14 }}>
-                        <button style={S.ctaBtn} onClick={() => onSaveProfile(pf)}>Save Profile</button>
+                        <button style={S.ctaBtn} onClick={() => onSaveProfile(pf)} disabled={uploading}>
+                            {uploading ? "Uploading..." : "Save Profile"}
+                        </button>
                         <button style={S.ghostBtn} onClick={() => onVendor(vendors[user.id])}>Preview Profile</button>
                     </div>
                 </div>
             )}
 
             {/* ── VENDORS (admin) ── */}
-            {tab === "vendors" && isAdmin && (
-                <div>
-                    {pending.length > 0 && (
-                        <>
-                            <p style={{ color: "#e07040", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", marginBottom: 12, fontFamily: "sans-serif" }}>Pending Approval</p>
-                            <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
-                                {pending.map(v => (
-                                    <div key={v.id} style={S.vCard}>
-                                        <div>
-                                            <strong style={{ fontSize: 15 }}>{v.name}</strong>
-                                            <p style={{ color: "#4a3a2a", fontSize: 12, fontFamily: "sans-serif" }}>{v.email} · {v.location}</p>
-                                            {v.tagline && <p style={{ color: "#9a8878", fontSize: 12, fontStyle: "italic" }}>{v.tagline}</p>}
+            {
+                tab === "vendors" && isAdmin && (
+                    <div>
+                        {pending.length > 0 && (
+                            <>
+                                <p style={{ color: "#e07040", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", marginBottom: 12, fontFamily: "sans-serif" }}>Pending Approval</p>
+                                <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
+                                    {pending.map(v => (
+                                        <div key={v.id} style={S.vCard}>
+                                            <div className="vcard-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+                                                <div>
+                                                    <strong style={{ fontSize: 15 }}>{v.name}</strong>
+                                                    <p style={{ color: "#4a3a2a", fontSize: 12, fontFamily: "sans-serif" }}>{v.email} · {v.location}</p>
+                                                    {v.tagline && <p style={{ color: "#9a8878", fontSize: 12, fontStyle: "italic" }}>{v.tagline}</p>}
+                                                </div>
+                                                <div style={{ display: "flex", gap: 8 }} className="vcard-btns">
+                                                    <button style={S.ctaBtn} onClick={() => onApprove(v.id)}>Approve</button>
+                                                    <button style={{ ...S.ghostBtn, color: "#e05050", borderColor: "#e05050", fontSize: 13 }} onClick={() => onReject(v.id)}>Reject</button>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div style={{ display: "flex", gap: 8 }}>
-                                            <button style={S.ctaBtn} onClick={() => onApprove(v.id)}>Approve</button>
-                                            <button style={{ ...S.ghostBtn, color: "#e05050", borderColor: "#e05050", fontSize: 13 }} onClick={() => onReject(v.id)}>Reject</button>
+                                    ))}
+                                </div>
+                            </>
+                        )}
+                        <p style={{ color: "#4a3a2a", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", marginBottom: 12, fontFamily: "sans-serif" }}>Active Vendors ({approved.length})</p>
+                        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                            {approved.map(v => (
+                                <div key={v.id} style={S.vCard}>
+                                    <div className="vcard-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+                                        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                                            {v.avatar && <img src={v.avatar} alt={v.name} style={{ width: 42, height: 42, borderRadius: "50%", objectFit: "cover" }} />}
+                                            <div>
+                                                <strong style={{ fontSize: 14 }}>{v.name}</strong>
+                                                <p style={{ color: "#4a3a2a", fontSize: 12, fontFamily: "sans-serif" }}>{v.email} · {v.location}</p>
+                                                <p style={{ color: "#5a4a3a", fontSize: 11, fontFamily: "sans-serif" }}>{products.filter(p => p.vendorId === v.id).length} products</p>
+                                            </div>
+                                        </div>
+                                        <div style={{ display: "flex", gap: 8 }} className="vcard-btns">
+                                            <button style={S.ghostBtn} onClick={() => onVendor(v)}>View Profile</button>
+                                            <button style={{ ...S.ghostBtn, color: "#e05050", borderColor: "#e05050" }} onClick={() => { if (window.confirm(`Remove ${v.name} from the platform?`)) onReject(v.id); }}>Remove</button>
                                         </div>
                                     </div>
-                                ))}
-                            </div>
-                        </>
-                    )}
-                    <p style={{ color: "#4a3a2a", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", marginBottom: 12, fontFamily: "sans-serif" }}>Active Vendors ({approved.length})</p>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                        {approved.map(v => (
-                            <div key={v.id} style={S.vCard}>
-                                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                                    {v.avatar && <img src={v.avatar} alt={v.name} style={{ width: 42, height: 42, borderRadius: "50%", objectFit: "cover" }} />}
-                                    <div>
-                                        <strong style={{ fontSize: 14 }}>{v.name}</strong>
-                                        <p style={{ color: "#4a3a2a", fontSize: 12, fontFamily: "sans-serif" }}>{v.email} · {v.location}</p>
-                                        <p style={{ color: "#5a4a3a", fontSize: 11, fontFamily: "sans-serif" }}>{products.filter(p => p.vendorId === v.id).length} products</p>
-                                    </div>
                                 </div>
-                                <div style={{ display: "flex", gap: 8 }}>
-                                    <button style={S.ghostBtn} onClick={() => onVendor(v)}>View Profile</button>
-                                    <button style={{ ...S.ghostBtn, color: "#e05050", borderColor: "#e05050" }} onClick={() => { if (window.confirm(`Remove ${v.name} from the platform?`)) onReject(v.id); }}>Remove</button>
-                                </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
-                </div>
-            )}
+                )
+            }
 
             {/* ── REVIEWS ── */}
-            {tab === "reviews" && (
-                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                    {myRevs.length === 0
-                        ? <p style={{ color: "#4a3a2a", fontFamily: "sans-serif", padding: "20px 0" }}>No reviews yet.</p>
-                        : myRevs.map(r => {
-                            const prod = products.find(p => p.id === r.productId);
-                            return (
-                                <div key={r.id} style={{ background: "#fff", border: "2px solid #eee", borderRadius: 10, padding: "16px 18px" }}>
-                                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6 }}>
-                                        <div>
-                                            <strong style={{ fontSize: 14, color: "#111" }}>{r.customerName}</strong>
-                                            <span style={{ color: "#f59e0b", marginLeft: 10 }}>{"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}</span>
-                                            {prod && <p style={{ color: "#16a34a", fontSize: 11, fontFamily: "sans-serif", marginTop: 2 }}>on {prod.name}</p>}
+            {
+                tab === "reviews" && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                        {myRevs.length === 0
+                            ? <p style={{ color: "#4a3a2a", fontFamily: "sans-serif", padding: "20px 0" }}>No reviews yet.</p>
+                            : myRevs.map(r => {
+                                const prod = products.find(p => p.id === r.productId);
+                                return (
+                                    <div key={r.id} style={{ background: "#fff", border: "2px solid #eee", borderRadius: 10, padding: "16px 18px" }}>
+                                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6 }}>
+                                            <div>
+                                                <strong style={{ fontSize: 14, color: "#111" }}>{r.customerName}</strong>
+                                                <span style={{ color: "#f59e0b", marginLeft: 10 }}>{"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}</span>
+                                                {prod && <p style={{ color: "#1b4332", fontSize: 11, fontFamily: "sans-serif", marginTop: 2 }}>on {prod.name}</p>}
+                                            </div>
+                                            <span style={{ color: "#888", fontSize: 11, fontFamily: "sans-serif" }}>{new Date(r.date).toLocaleDateString("en-IN")}</span>
                                         </div>
-                                        <span style={{ color: "#888", fontSize: 11, fontFamily: "sans-serif" }}>{new Date(r.date).toLocaleDateString("en-IN")}</span>
+                                        <p style={{ color: "#555", fontSize: 13, fontFamily: "sans-serif", lineHeight: 1.6 }}>{r.comment}</p>
                                     </div>
-                                    <p style={{ color: "#555", fontSize: 13, fontFamily: "sans-serif", lineHeight: 1.6 }}>{r.comment}</p>
-                                </div>
-                            );
-                        })}
-                </div>
-            )}
-        </div>
+                                );
+                            })}
+                    </div>
+                )
+            }
+        </div >
     );
 }

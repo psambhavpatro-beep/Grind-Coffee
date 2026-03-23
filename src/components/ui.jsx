@@ -26,7 +26,7 @@ export function Inp({ label, type = "text", val, set, ph }) {
 export function StatCard({ label, value, alert }) {
     return (
         <div style={{ ...S.statCard, borderColor: alert ? "#dc2626" : "#111" }}>
-            <div style={{ ...S.statVal, color: alert ? "#dc2626" : "#16a34a" }}>{value}</div>
+            <div style={{ ...S.statVal, color: alert ? "#dc2626" : "#1b4332" }}>{value}</div>
             <div style={S.statLbl}>{label}</div>
         </div>
     );

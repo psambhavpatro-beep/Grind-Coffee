@@ -23,6 +23,16 @@ export default function OrdersView({ orders, user, isAdmin, isVendor, vendors, p
                         <p style={{ color: "#888", fontSize: 12, fontFamily: "sans-serif" }}>
                             {new Date(o.date).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}
                         </p>
+                        {/* Payment badge */}
+                        <span style={{
+                            display: "inline-block", marginTop: 6, fontSize: 10, fontFamily: "sans-serif", fontWeight: 700,
+                            padding: "2px 8px", borderRadius: 99,
+                            background: o.paymentStatus === "paid" ? "#f0fdf4" : "#fffbeb",
+                            color: o.paymentStatus === "paid" ? "#1b4332" : "#92400e",
+                            border: `1px solid ${o.paymentStatus === "paid" ? "#bbf7d0" : "#fcd34d"}`
+                        }}>
+                            {o.paymentStatus === "paid" ? "✓ Paid online" : "COD"}
+                        </span>
                     </div>
                     <span style={{ ...S.statusBadge, background: STATUS_C[o.status] || "#5a4a3a" }}>{o.status}</span>
                 </div>
@@ -36,7 +46,7 @@ export default function OrdersView({ orders, user, isAdmin, isVendor, vendors, p
                                     {STATUS_FLOW.indexOf(o.status) > i ? "✓" : ""}
                                 </div>
                                 <div style={{ flex: 1, textAlign: "center" }}>
-                                    <p style={{ color: STATUS_FLOW.indexOf(o.status) >= i ? "#16a34a" : "#bbb", fontSize: 10, fontFamily: "sans-serif", textTransform: "capitalize", marginTop: 6 }}>{st}</p>
+                                    <p style={{ color: STATUS_FLOW.indexOf(o.status) >= i ? "#1b4332" : "#bbb", fontSize: 10, fontFamily: "sans-serif", textTransform: "capitalize", marginTop: 6 }}>{st}</p>
                                 </div>
                                 {i < STATUS_FLOW.length - 1 && <div style={{ ...S.stepLine, ...(STATUS_FLOW.indexOf(o.status) > i ? S.stepLineOn : {}) }} />}
                             </div>
@@ -70,6 +80,16 @@ export default function OrdersView({ orders, user, isAdmin, isVendor, vendors, p
                         <p style={S.specLbl}>Delivery Details</p>
                         <p style={{ fontSize: 13, fontFamily: "sans-serif", lineHeight: 1.6, color: "#111" }}>{o.address.name} · {o.address.phone}</p>
                         <p style={{ fontSize: 13, fontFamily: "sans-serif", color: "#555" }}>{o.address.line1}{o.address.area ? ", " + o.address.area : ""}, Bengaluru - {o.address.pin}</p>
+                        {/* Shiprocket tracking */}
+                        {o.trackingId && (
+                            <a
+                                href={o.trackingUrl || `https://shiprocket.co/tracking/${o.trackingId}`}
+                                target="_blank" rel="noopener noreferrer"
+                                style={{ display: "inline-block", marginTop: 10, fontSize: 12, fontWeight: 700, fontFamily: "sans-serif", color: "#1b4332", textDecoration: "none", background: "#dcfce7", padding: "4px 12px", borderRadius: 6 }}
+                            >
+                                📦 Track Shipment ({o.trackingId})
+                            </a>
+                        )}
                     </div>
                 )}
 
@@ -110,8 +130,18 @@ export default function OrdersView({ orders, user, isAdmin, isVendor, vendors, p
                                 <p style={{ color: "#888", fontSize: 12, fontFamily: "sans-serif" }}>{new Date(o.date).toLocaleDateString("en-IN")} · {o.items.length} item{o.items.length !== 1 ? "s" : ""}</p>
                                 {(isAdmin || isVendor) && <p style={{ color: "#888", fontSize: 12, fontFamily: "sans-serif" }}>{o.customerName}</p>}
                             </div>
-                            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                                 <p style={{ fontWeight: 700, fontFamily: "sans-serif", color: "#111" }}>{fmt(o.total)}</p>
+                                {/* Payment badge */}
+                                <span style={{
+                                    fontSize: 9, fontFamily: "sans-serif", fontWeight: 700,
+                                    padding: "2px 6px", borderRadius: 99,
+                                    background: o.paymentStatus === "paid" ? "#f0fdf4" : "#fffbeb",
+                                    color: o.paymentStatus === "paid" ? "#1b4332" : "#92400e",
+                                    border: `1px solid ${o.paymentStatus === "paid" ? "#bbf7d0" : "#fcd34d"}`
+                                }}>
+                                    {o.paymentStatus === "paid" ? "Paid" : "COD"}
+                                </span>
                                 <span style={{ ...S.statusBadge, background: STATUS_C[o.status] || "#5a4a3a" }}>{o.status}</span>
                                 <span style={{ color: "#c8864a", fontSize: 13 }}>→</span>
                             </div>
