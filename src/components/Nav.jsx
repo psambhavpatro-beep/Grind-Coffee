@@ -19,7 +19,7 @@ export default function Nav({ user, cartCount, onShop, onRoasters, onDash, onOrd
         <>
             <nav style={S.nav}>
                 <button style={{ ...S.logo, display: 'flex', alignItems: 'center', padding: 0 }} onClick={() => go(onShop)}>
-                    <img src="/grind-logo-white.png" alt="Grind" style={{ height: 56 }} />
+                    <img src="/grind-logo-white.png" alt="Grind" style={{ height: 90 }} />
                 </button>
 
                 {/* Desktop links */}

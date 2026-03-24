@@ -30,7 +30,7 @@ export const CSS = `
     .mobile-only-nav { display: flex; align-items: center; gap: 8px; }
     .mobile-menu {
       display: flex; flex-direction: column;
-      position: fixed; top: 72px; left: 0; right: 0;
+      position: fixed; top: 100px; left: 0; right: 0;
       background: #fff; border-bottom: 2px solid #111;
       padding: 12px 0; z-index: 99;
       box-shadow: 0 8px 24px rgba(0,0,0,.12);
@@ -126,7 +126,7 @@ export const S = {
   toast: { position: "fixed", bottom: 24, left: "50%", transform: "translateX(-50%)", padding: "12px 24px", borderRadius: 8, color: "#fff", zIndex: 999, fontFamily: "sans-serif", fontSize: 13, pointerEvents: "none", whiteSpace: "nowrap", boxShadow: "0 4px 20px rgba(0,0,0,.25)" },
 
   // NAV
-  nav: { position: "sticky", top: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 28px", height: 72, background: "#1b4332", borderBottom: "none" },
+  nav: { position: "sticky", top: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "5px 28px", background: "#1b4332", borderBottom: "none" },
   logo: { background: "none", border: "none", color: "#fff", fontFamily: "'Libre Baskerville',serif", fontSize: 22, fontWeight: 700, letterSpacing: 1.5, cursor: "pointer", flexShrink: 0 },
   nb: { background: "none", border: "none", color: "rgba(255,255,255,.8)", fontSize: 13, cursor: "pointer", padding: "6px 10px", fontFamily: "sans-serif", fontWeight: 500 },
   chip: { background: "rgba(255,255,255,.15)", color: "#fff", borderRadius: 20, padding: "4px 13px", fontSize: 12, fontFamily: "sans-serif", fontWeight: 600 },
@@ -246,7 +246,7 @@ export const S = {
   eyeLabel: { color: "#1b4332", fontSize: 9, letterSpacing: 4, textTransform: "uppercase", marginBottom: 16, fontFamily: "sans-serif", fontWeight: 700 },
 
   // DASHBOARD
-  dash: { maxWidth: 1060, margin: "0 auto", padding: "28px 26px 60px", background: "#f8f9f5", minHeight: "calc(100vh - 72px)" },
+  dash: { maxWidth: 1060, margin: "0 auto", padding: "28px 26px 60px", background: "#f8f9f5", minHeight: "calc(100vh - 100px)" },
   dashH: { fontSize: 26, fontWeight: 700, marginBottom: 4, color: "#111" },
   tabs: { display: "flex", gap: 2, borderBottom: "2px solid #111", marginBottom: 24, flexWrap: "wrap" },
   tab: { background: "none", border: "none", color: "#888", padding: "10px 16px", cursor: "pointer", fontSize: 13, fontFamily: "sans-serif", fontWeight: 600, borderBottom: "3px solid transparent", marginBottom: -2 },
