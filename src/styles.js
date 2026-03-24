@@ -19,7 +19,7 @@ export const CSS = `
 
   /* ── NAV ── */
   .nav-links { display: flex; align-items: center; gap: 4px; }
-  .nav-hamburger { display: none; background: none; border: none; font-size: 22px; cursor: pointer; color: #111; padding: 6px; }
+  .nav-hamburger { display: none; background: none; border: none; font-size: 22px; cursor: pointer; color: #fff; padding: 6px; }
   .mobile-menu { display: none; }
   .mobile-only-nav { display: none; }
 
@@ -30,7 +30,7 @@ export const CSS = `
     .mobile-only-nav { display: flex; align-items: center; gap: 8px; }
     .mobile-menu {
       display: flex; flex-direction: column;
-      position: fixed; top: 58px; left: 0; right: 0;
+      position: fixed; top: 72px; left: 0; right: 0;
       background: #fff; border-bottom: 2px solid #111;
       padding: 12px 0; z-index: 99;
       box-shadow: 0 8px 24px rgba(0,0,0,.12);
@@ -126,21 +126,21 @@ export const S = {
   toast: { position: "fixed", bottom: 24, left: "50%", transform: "translateX(-50%)", padding: "12px 24px", borderRadius: 8, color: "#fff", zIndex: 999, fontFamily: "sans-serif", fontSize: 13, pointerEvents: "none", whiteSpace: "nowrap", boxShadow: "0 4px 20px rgba(0,0,0,.25)" },
 
   // NAV
-  nav: { position: "sticky", top: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 28px", height: 58, background: "#fff", backdropFilter: "blur(12px)", borderBottom: "2px solid #111" },
-  logo: { background: "none", border: "none", color: "#111", fontFamily: "'Libre Baskerville',serif", fontSize: 17, fontWeight: 700, letterSpacing: 1, cursor: "pointer", flexShrink: 0 },
-  nb: { background: "none", border: "none", color: "#555", fontSize: 13, cursor: "pointer", padding: "6px 10px", fontFamily: "sans-serif", fontWeight: 500 },
-  chip: { background: "#1b4332", color: "#fff", borderRadius: 20, padding: "4px 13px", fontSize: 12, fontFamily: "sans-serif", fontWeight: 600 },
-  signInBtn: { background: "#111", border: "none", color: "#fff", padding: "8px 16px", borderRadius: 8, cursor: "pointer", fontSize: 13, fontFamily: "sans-serif", fontWeight: 600 },
+  nav: { position: "sticky", top: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 28px", height: 72, background: "#1b4332", borderBottom: "none" },
+  logo: { background: "none", border: "none", color: "#fff", fontFamily: "'Libre Baskerville',serif", fontSize: 22, fontWeight: 700, letterSpacing: 1.5, cursor: "pointer", flexShrink: 0 },
+  nb: { background: "none", border: "none", color: "rgba(255,255,255,.8)", fontSize: 13, cursor: "pointer", padding: "6px 10px", fontFamily: "sans-serif", fontWeight: 500 },
+  chip: { background: "rgba(255,255,255,.15)", color: "#fff", borderRadius: 20, padding: "4px 13px", fontSize: 12, fontFamily: "sans-serif", fontWeight: 600 },
+  signInBtn: { background: "#fff", border: "none", color: "#1b4332", padding: "8px 16px", borderRadius: 8, cursor: "pointer", fontSize: 13, fontFamily: "sans-serif", fontWeight: 600 },
   drop: { position: "absolute", right: 0, top: "calc(100% + 6px)", background: "#fff", border: "2px solid #111", borderRadius: 10, width: 220, overflow: "hidden", boxShadow: "4px 4px 0 #111" },
   dropSection: { padding: "8px 14px 4px", fontSize: 9, letterSpacing: 2, color: "#999", fontFamily: "sans-serif", textTransform: "uppercase" },
   dropItem: { display: "block", width: "100%", background: "none", border: "none", color: "#333", padding: "10px 16px", textAlign: "left", cursor: "pointer", fontSize: 13, fontFamily: "sans-serif" },
   dropDiv: { height: 2, background: "#111", margin: "4px 0" },
-  cartBtn: { background: "#111", border: "none", color: "#fff", padding: "7px 14px", borderRadius: 20, cursor: "pointer", fontSize: 15, position: "relative", fontFamily: "sans-serif" },
-  cartBadge: { position: "absolute", top: -5, right: -5, background: "#1b4332", color: "#fff", borderRadius: "50%", fontSize: 9, width: 17, height: 17, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "sans-serif", fontWeight: 700 },
+  cartBtn: { background: "rgba(255,255,255,.15)", border: "none", color: "#fff", padding: "7px 14px", borderRadius: 20, cursor: "pointer", fontSize: 15, position: "relative", fontFamily: "sans-serif" },
+  cartBadge: { position: "absolute", top: -5, right: -5, background: "#fff", color: "#1b4332", borderRadius: "50%", fontSize: 9, width: 17, height: 17, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "sans-serif", fontWeight: 700 },
 
   // HERO
   hero: { background: "#111", padding: "80px 32px 60px", textAlign: "center", borderBottom: "none" },
-  heroEye: { color: "#1b4332", letterSpacing: 5, fontSize: 9, textTransform: "uppercase", marginBottom: 14, fontFamily: "sans-serif", fontWeight: 600 },
+  heroEye: { color: "#4ade80", letterSpacing: 5, fontSize: 9, textTransform: "uppercase", marginBottom: 14, fontFamily: "sans-serif", fontWeight: 600 },
   heroH: { fontSize: "clamp(38px,7vw,82px)", fontWeight: 700, lineHeight: 1.04, marginBottom: 14, color: "#fff" },
   heroP: { color: "#aaa", fontSize: 15, maxWidth: 420, margin: "0 auto 28px", fontFamily: "sans-serif" },
   heroSearch: { position: "relative", maxWidth: 500, margin: "0 auto", display: "flex", alignItems: "center" },
@@ -246,7 +246,7 @@ export const S = {
   eyeLabel: { color: "#1b4332", fontSize: 9, letterSpacing: 4, textTransform: "uppercase", marginBottom: 16, fontFamily: "sans-serif", fontWeight: 700 },
 
   // DASHBOARD
-  dash: { maxWidth: 1060, margin: "0 auto", padding: "28px 26px 60px", background: "#f8f9f5", minHeight: "calc(100vh - 58px)" },
+  dash: { maxWidth: 1060, margin: "0 auto", padding: "28px 26px 60px", background: "#f8f9f5", minHeight: "calc(100vh - 72px)" },
   dashH: { fontSize: 26, fontWeight: 700, marginBottom: 4, color: "#111" },
   tabs: { display: "flex", gap: 2, borderBottom: "2px solid #111", marginBottom: 24, flexWrap: "wrap" },
   tab: { background: "none", border: "none", color: "#888", padding: "10px 16px", cursor: "pointer", fontSize: 13, fontFamily: "sans-serif", fontWeight: 600, borderBottom: "3px solid transparent", marginBottom: -2 },

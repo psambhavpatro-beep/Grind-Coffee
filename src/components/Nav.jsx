@@ -19,7 +19,7 @@ export default function Nav({ user, cartCount, onShop, onRoasters, onDash, onOrd
         <>
             <nav style={S.nav}>
                 <button style={{ ...S.logo, display: 'flex', alignItems: 'center', padding: 0 }} onClick={() => go(onShop)}>
-                    <img src="/grind-logo.png" alt="Grind" style={{ height: 34, borderRadius: 6 }} />
+                    <img src="/grind-logo-white.png" alt="Grind" style={{ height: 56 }} />
                 </button>
 
                 {/* Desktop links */}
@@ -40,7 +40,7 @@ export default function Nav({ user, cartCount, onShop, onRoasters, onDash, onOrd
                     {user ? (
                         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                             <span style={S.chip}>{user.name}</span>
-                            <button style={{ ...S.nb, color: "#1b4332" }} onClick={onLogout}>Logout</button>
+                            <button style={{ ...S.nb, color: "rgba(255,255,255,.6)" }} onClick={onLogout}>Logout</button>
                         </div>
                     ) : (
                         <div ref={ref} style={{ position: "relative" }}>
@@ -68,7 +68,7 @@ export default function Nav({ user, cartCount, onShop, onRoasters, onDash, onOrd
 
                 {/* Mobile right side: cart + hamburger */}
                 <div className="mobile-only-nav">
-                    <button className="nav-hamburger" onClick={() => setMobileOpen(o => !o)} aria-label="Menu">
+                    <button className="nav-hamburger" onClick={() => setMobileOpen(o => !o)} aria-label="Menu" style={{ color: '#fff' }}>
                         {mobileOpen ? "✕" : "☰"}
                     </button>
                     <button style={{ ...S.cartBtn, position: "relative" }} onClick={onCart}>
@@ -94,7 +94,7 @@ export default function Nav({ user, cartCount, onShop, onRoasters, onDash, onOrd
                     )}
 
                     {user ? (
-                        <button onClick={() => { setMobileOpen(false); onLogout(); }} style={{ color: "#1b4332" }}>
+                        <button onClick={() => { setMobileOpen(false); onLogout(); }} style={{ color: "#555" }}>
                             👋 Logout ({user.name})
                         </button>
                     ) : (
