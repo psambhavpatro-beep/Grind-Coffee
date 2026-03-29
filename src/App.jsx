@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { Analytics } from "@vercel/analytics/react";
 
 import { CSS, S } from "./styles";
 import { DEMO_VENDORS, DELIVERY_FEE } from "./constants";
@@ -333,6 +334,7 @@ export default function App() {
 
   return (
     <div style={S.root}>
+      <Analytics />
       <style>{CSS}</style>
 
       {toast && <Toast msg={toast.msg} type={toast.type} />}
