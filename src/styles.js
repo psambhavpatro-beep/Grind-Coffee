@@ -23,6 +23,11 @@ export const CSS = `
   .mobile-menu { display: none; }
   .mobile-only-nav { display: none; }
 
+  /* ── TOP BAR ── */
+  @media (max-width: 640px) {
+    .top-bar-container { justify-content: center !important; padding: 10px 14px !important; flex-wrap: wrap; gap: 12px !important; }
+  }
+
   /* ── MOBILE MENU SLIDE DOWN ── */
   @media (max-width: 640px) {
     .nav-links { display: none; }
@@ -124,6 +129,8 @@ export const CSS = `
 export const S = {
   root: { fontFamily: "'Libre Baskerville',Georgia,serif", background: "#f8f9f5", minHeight: "100vh", color: "#111" },
   toast: { position: "fixed", bottom: 24, left: "50%", transform: "translateX(-50%)", padding: "12px 24px", borderRadius: 8, color: "#fff", zIndex: 999, fontFamily: "sans-serif", fontSize: 13, pointerEvents: "none", whiteSpace: "nowrap", boxShadow: "0 4px 20px rgba(0,0,0,.25)" },
+  topBar: { background: "#111", color: "#ddd", fontSize: 11, padding: "8px 28px", display: "flex", justifyContent: "flex-end", gap: 20, fontFamily: "sans-serif", letterSpacing: 0.5 },
+  topBarLink: { color: "#ddd", textDecoration: "none", display: "flex", alignItems: "center", gap: 6 },
 
   // NAV
   nav: { position: "sticky", top: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "5px 28px", background: "#1b4332", borderBottom: "none" },

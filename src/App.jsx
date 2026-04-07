@@ -7,6 +7,76 @@ import { DEMO_VENDORS, DELIVERY_FEE } from "./constants";
 import { uid } from "./utils";
 import * as api from "./api";
 
+// ═══════════════════════════════════════════════════════════════════
+// SEO HELPER — dynamically updates <head> meta tags per view
+// ═══════════════════════════════════════════════════════════════════
+const SITE = "https://thatsgrind.com";
+const DEFAULT_TITLE = "Grind — Specialty Coffee Delivered Fast in Bangalore";
+const DEFAULT_DESC = "Order freshly roasted specialty coffee online in Bangalore. Fast delivery across all neighborhoods. Filter coffee, single origins, and more.";
+const OG_IMAGE = `${SITE}/grind-logo-white.png`;
+
+function setMeta(name, content) {
+  let el = document.querySelector(`meta[name="${name}"]`) || document.querySelector(`meta[property="${name}"]`);
+  if (!el) {
+    el = document.createElement("meta");
+    if (name.startsWith("og:") || name.startsWith("twitter:")) el.setAttribute("property", name);
+    else el.setAttribute("name", name);
+    document.head.appendChild(el);
+  }
+  el.setAttribute("content", content);
+}
+
+function setCanonical(url) {
+  let el = document.querySelector('link[rel="canonical"]');
+  if (!el) { el = document.createElement("link"); el.setAttribute("rel", "canonical"); document.head.appendChild(el); }
+  el.setAttribute("href", url);
+}
+
+function setJsonLd(id, data) {
+  let el = document.getElementById(id);
+  if (!el) { el = document.createElement("script"); el.id = id; el.type = "application/ld+json"; document.head.appendChild(el); }
+  el.textContent = JSON.stringify(data);
+}
+
+function removeJsonLd(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+
+function updateSEO({ title, description, url, image, product }) {
+  document.title = title || DEFAULT_TITLE;
+  setMeta("description", description || DEFAULT_DESC);
+  setCanonical(url || SITE + "/");
+  setMeta("og:title", title || DEFAULT_TITLE);
+  setMeta("og:description", description || DEFAULT_DESC);
+  setMeta("og:url", url || SITE + "/");
+  setMeta("og:image", image || OG_IMAGE);
+  setMeta("twitter:title", title || DEFAULT_TITLE);
+  setMeta("twitter:description", description || DEFAULT_DESC);
+  setMeta("twitter:image", image || OG_IMAGE);
+
+  if (product) {
+    setJsonLd("seo-product-jsonld", {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: product.name,
+      description: product.description || `${product.name} — ${product.notes}`,
+      image: product.image,
+      brand: { "@type": "Brand", name: "Grind" },
+      offers: {
+        "@type": "Offer",
+        url: url,
+        priceCurrency: "INR",
+        price: product.price,
+        availability: product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+        seller: { "@type": "Organization", name: "Grind" },
+      },
+    });
+  } else {
+    removeJsonLd("seo-product-jsonld");
+  }
+}
+
 // Components
 import Nav from "./components/Nav";
 import CartDrawer from "./components/CartDrawer";
@@ -66,6 +136,15 @@ export default function App() {
         setProducts(prods);
         setVendors(fbVendors);
 
+        const params = new URLSearchParams(window.location.search);
+        const pId = params.get("p");
+        if (pId) {
+          const p = prods.find(x => x.id === pId);
+          if (p) {
+            setSelProduct(p);
+            setView("product");
+          }
+        }
       })
       .catch(e => console.error("Catalogue load error:", e));
 
@@ -105,6 +184,37 @@ export default function App() {
       if (orderUnsub) orderUnsub();
     };
   }, []);
+
+  // ── DYNAMIC SEO — update <head> whenever the view changes ──
+  useEffect(() => {
+    if (view === "product" && selProduct) {
+      const p = selProduct;
+      const title = `${p.name} — ${p.origin} ${p.roastType} Roast | Grind`;
+      const desc = `${p.name}: ${p.notes || ""} — ${p.roastType} roast from ${p.origin}. ${p.description || ""} Order online for fast delivery in Bangalore.`.slice(0, 160);
+      const url = `${SITE}/?p=${p.id}`;
+      updateSEO({ title, description: desc, url, image: p.image, product: p });
+    } else if (view === "roaster" && selVendor) {
+      updateSEO({
+        title: `${selVendor.name} — Roaster Profile | Grind`,
+        description: `${selVendor.tagline || ""} ${selVendor.story || ""}`.slice(0, 160),
+        url: `${SITE}/`,
+      });
+    } else if (view === "roasters") {
+      updateSEO({
+        title: "Explore Roasters — Specialty Coffee Roasters in Bangalore | Grind",
+        description: "Discover Bangalore's finest specialty coffee roasters. Small-batch, single-origin coffees delivered to your door.",
+        url: `${SITE}/`,
+      });
+    } else if (view === "wishlist") {
+      updateSEO({ title: "Your Wishlist | Grind", url: `${SITE}/` });
+    } else if (view === "orders") {
+      updateSEO({ title: "Your Orders | Grind", url: `${SITE}/` });
+    } else if (view === "dashboard") {
+      updateSEO({ title: "Dashboard | Grind", url: `${SITE}/` });
+    } else {
+      updateSEO({ title: DEFAULT_TITLE, description: DEFAULT_DESC, url: `${SITE}/` });
+    }
+  }, [view, selProduct, selVendor]);
 
   const isAdmin = user?.role === "admin";
   const isVendor = user?.role === "vendor";
@@ -364,6 +474,14 @@ export default function App() {
         {view === "dashboard" && (isAdmin || isVendor) && <Dashboard user={user} products={myProds} vendors={vendors} orders={orders} reviews={reviews} isAdmin={isAdmin} onAdd={() => nav("editprod", { editProd: null })} onEdit={p => nav("editprod", { editProd: p })} onDel={delProd} onToggleFeat={toggleFeatured} onApprove={approveVendor} onReject={rejectVendor} onVendor={v => nav("roaster", { vendor: v })} onSaveProfile={saveProfile} onOrders={() => nav("orders")} />}
         {view === "editprod" && (isAdmin || isVendor) && <ProdForm product={editProd} vendors={vendors} isAdmin={isAdmin} user={user} onSave={saveProd} onCancel={() => nav("dashboard")} />}
       </main>
+
+      <footer style={{ background: "#111", color: "#ddd", padding: "48px 28px", textAlign: "center", marginTop: "auto" }}>
+        <h3 style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 2.5, marginBottom: 20, color: "#888", fontFamily: "sans-serif" }}>Contact Us</h3>
+        <div style={{ display: "flex", justifyContent: "center", gap: 32, flexWrap: "wrap", fontSize: 13, fontFamily: "sans-serif", fontWeight: 600 }}>
+          <a href="tel:+918114990288" style={{ color: "#ddd", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}>📞 +91 8114990288</a>
+          <a href="mailto:support@thatsgrind.com" style={{ color: "#ddd", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}>✉️ support@thatsgrind.com</a>
+        </div>
+      </footer>
 
       {/* Modals */}
       {(modal === "login" || modal === "signup") && <AuthModal mode={modal} loginType={loginType} setLoginType={setLoginType} onClose={() => setModal(null)} onSuccess={u => { refreshVendors(); afterLogin(u); }} onSwitch={() => setModal(modal === "login" ? "signup" : "login")} pop={pop} />}

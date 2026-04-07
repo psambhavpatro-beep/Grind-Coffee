@@ -6,9 +6,7 @@ import { getFirestore } from "firebase-admin/firestore";
 
 // ── Firebase Admin init (reuse across warm invocations) ────────────
 if (!getApps().length) {
-  initializeApp({
-    projectId: process.env.VITE_FIREBASE_PROJECT_ID || "blr-coffee",
-  });
+  initializeApp({ projectId: "blr-coffee" });
 }
 const db = getFirestore();
 

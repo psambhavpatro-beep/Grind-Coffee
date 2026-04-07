@@ -23,9 +23,23 @@ export default function ProductView({ product: p, vendor: v, grind, setGrind, on
                 <div>
                     <div style={{ position: "relative" }}>
                         <img src={p.image || DEF_IMG} alt={p.name} style={S.prodImg} />
-                        <button style={{ ...S.wishOverlay, ...(isWished ? S.wishOverlayOn : {}) }} onClick={onWish}>
-                            {isWished ? "♥" : "♡"}
-                        </button>
+                        <div style={{ position: "absolute", top: 12, right: 12, display: "flex", flexDirection: "column", gap: 8 }}>
+                            <button style={{ ...S.wishOverlay, position: "relative", top: 0, right: 0, ...(isWished ? S.wishOverlayOn : {}) }} onClick={onWish} title="Add to Wishlist">
+                                {isWished ? "♥" : "♡"}
+                            </button>
+                            <button style={{ ...S.wishOverlay, position: "relative", top: 0, right: 0, color: "#111" }} onClick={async () => {
+                                const url = `${window.location.origin}${window.location.pathname}?p=${p.id}`;
+                                const shareData = { title: `Grind - ${p.name}`, text: `Check out ${p.name} at Grind!`, url };
+                                if (navigator.share) {
+                                    try { await navigator.share(shareData); } catch (e) {}
+                                } else {
+                                    navigator.clipboard.writeText(url);
+                                    alert("Link copied to clipboard!");
+                                }
+                            }} title="Share this coffee">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                            </button>
+                        </div>
                     </div>
 
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 7, marginTop: 14 }}>

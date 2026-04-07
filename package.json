@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "build": "vite build",
     "generate:products": "node scripts/generate-product-pages.js",
     "generate:feed": "node scripts/generate-merchant-feed.js",
-    "build": "node scripts/generate-product-pages.js && node scripts/generate-merchant-feed.js && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },

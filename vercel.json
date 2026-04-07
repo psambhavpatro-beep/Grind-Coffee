@@ -23,11 +23,15 @@
         },
         {
             "source": "/product/:slug",
-            "destination": "/product/:slug/index.html"
+            "destination": "/api/product-page?slug=:slug"
         },
         {
             "source": "/merchant-feed.xml",
-            "destination": "/merchant-feed.xml"
+            "destination": "/api/merchant-feed"
+        },
+        {
+            "source": "/deliver/:slug",
+            "destination": "/deliver/:slug/index.html"
         },
         {
             "source": "/(.*)",

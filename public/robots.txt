@@ -1,0 +1,7 @@
+# Grind — Specialty Coffee Delivered in Bangalore
+# https://thatsgrind.com
+
+User-agent: *
+Allow: /
+
+Sitemap: https://thatsgrind.com/sitemap.xml

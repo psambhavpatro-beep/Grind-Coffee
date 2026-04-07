@@ -104,6 +104,13 @@ export default function Nav({ user, cartCount, onShop, onRoasters, onDash, onOrd
                             <button onClick={() => { setMobileOpen(false); openSignup("customer"); }}>Create Account</button>
                         </>
                     )}
+
+                    <div style={{ height: 1, background: "#f0f0f0", margin: "8px 0" }} />
+                    <div style={{ padding: "12px 24px", display: "flex", flexDirection: "column", gap: 10 }}>
+                        <span style={{ fontSize: 11, fontFamily: "sans-serif", color: "#888", fontWeight: 700, letterSpacing: 1 }}>CONTACT US</span>
+                        <a href="tel:+918114990288" style={{ fontSize: 14, color: "#111", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}>📞 +91 8114990288</a>
+                        <a href="mailto:support@thatsgrind.com" style={{ fontSize: 14, color: "#111", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}>✉️ support@thatsgrind.com</a>
+                    </div>
                 </div>
             )}
         </>
