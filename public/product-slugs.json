@@ -1,0 +1,337 @@
+[
+  {
+    "slug": "harmonic-hills-robusta",
+    "id": "1F5T3DyR1hLovALQWabK",
+    "name": "HARMONIC HILLS Robusta"
+  },
+  {
+    "slug": "subko-vlge",
+    "id": "4cjYt4YDePn1TFAIlVO1",
+    "name": "Subko VLGE"
+  },
+  {
+    "slug": "project-seven-sisters",
+    "id": "5zU1zVrMZjzsxdYbG4yV",
+    "name": "Project Seven Sisters"
+  },
+  {
+    "slug": "a-fine-balance",
+    "id": "6giC5NQomAxdmYON4ZnB",
+    "name": "A Fine Balance"
+  },
+  {
+    "slug": "selection",
+    "id": "7JfMpiSt0sOexP9pupmj",
+    "name": "Selection"
+  },
+  {
+    "slug": "cold-brew-light-bright",
+    "id": "7S1XzUts3wwm37S0sDY6",
+    "name": "Cold brew - Light & Bright"
+  },
+  {
+    "slug": "uru-blend",
+    "id": "8Bi4i9mCE63qyBmalRS6",
+    "name": "Uru Blend"
+  },
+  {
+    "slug": "vienna-roast",
+    "id": "9AqaEuSmmV7xozij2K6e",
+    "name": "Vienna Roast"
+  },
+  {
+    "slug": "monsoon-malabar",
+    "id": "9Lv4zXfXYQf7sfFERUTz",
+    "name": "Monsoon Malabar"
+  },
+  {
+    "slug": "south-indian-filter-coffee-100-coffee-arabica-robusta",
+    "id": "ASZcBCY9cCOV19voNLul",
+    "name": "South Indian Filter Coffee [100% Coffee] (Arabica + Robusta)"
+  },
+  {
+    "slug": "st-joseph-estate",
+    "id": "Axi1gBrbv9sSHazRAVB2",
+    "name": "St. Joseph Estate"
+  },
+  {
+    "slug": "house-blend-light-roast",
+    "id": "AzPuREnkdkOx1yqBLObB",
+    "name": "House Blend - Light Roast"
+  },
+  {
+    "slug": "signature-south-indian-filter",
+    "id": "Ba8S3teKLAbcAUL3xtAy",
+    "name": "Signature South Indian Filter"
+  },
+  {
+    "slug": "cold-brew-dark-fruity",
+    "id": "CA6FuUM1HAHF6fvzSIEy",
+    "name": "Cold brew - Dark & Fruity"
+  },
+  {
+    "slug": "cold-brew-blend-arablica-robusta",
+    "id": "CANcs8m6lezgs4Fmlu11",
+    "name": "Cold Brew Blend (Arablica + Robusta)"
+  },
+  {
+    "slug": "parama",
+    "id": "FncNHgzN4Sp9Xax8doXU",
+    "name": "Parama"
+  },
+  {
+    "slug": "speciality-single-origin-chikmagalur-region",
+    "id": "Fo7lHL8R271OlBAKmAhq",
+    "name": "Speciality Single Origin Chikmagalur Region"
+  },
+  {
+    "slug": "clouds-in-my-coffee",
+    "id": "Fs28Yoz0jwUT6G9GxZ91",
+    "name": "Clouds In My Coffee"
+  },
+  {
+    "slug": "attikan-estate",
+    "id": "GGgJSEefK0ey91plequa",
+    "name": "Attikan Estate"
+  },
+  {
+    "slug": "vienna-roast",
+    "id": "GQZtVGR0nPIIoD7dBSeP",
+    "name": "Vienna Roast"
+  },
+  {
+    "slug": "everyday-sunshine-arabica-fermented-naturals",
+    "id": "KZFFxCMhbYv48GXB46WH",
+    "name": "EVERYDAY SUNSHINE: ARABICA FERMENTED NATURALS"
+  },
+  {
+    "slug": "cappuccino-blend",
+    "id": "MPU9QKfWk3jq6nPYHxj6",
+    "name": "Cappuccino Blend"
+  },
+  {
+    "slug": "parama-dark",
+    "id": "MlJz7AFylWbUBLHGTmGd",
+    "name": "Parama Dark"
+  },
+  {
+    "slug": "south-indian-filter-coffee-80-coffee-20-chicory",
+    "id": "Nx8u53EDMtwZiMZqwVdW",
+    "name": "South Indian Filter Coffee [80% Coffee, 20% Chicory]"
+  },
+  {
+    "slug": "sunkissed",
+    "id": "PU95RejiJFIBjzxgsuwo",
+    "name": "Sunkissed"
+  },
+  {
+    "slug": "winter-blend",
+    "id": "R21RI8t54Su2MAI8HNTb",
+    "name": "Winter Blend"
+  },
+  {
+    "slug": "speciality-single-origin-bababudangiri-region",
+    "id": "T5aApArTAGOFM8iQd98t",
+    "name": "Speciality Single Origin Bababudangiri Region"
+  },
+  {
+    "slug": "french-roast",
+    "id": "UGRM97g4dIwcfs2cDrtp",
+    "name": "French Roast"
+  },
+  {
+    "slug": "french-roast",
+    "id": "UTbV2bUbHtowgaJaR0aN",
+    "name": "French Roast"
+  },
+  {
+    "slug": "modur-naturals",
+    "id": "UdLHYFQRRyUJMiSbsPkw",
+    "name": "Modur Naturals"
+  },
+  {
+    "slug": "grand-reserve",
+    "id": "XGHegtJ1kFsZpbbGBy8v",
+    "name": "Grand Reserve"
+  },
+  {
+    "slug": "baarbara-estate",
+    "id": "XdEyiqiHEyNJHeiDVbSH",
+    "name": "Baarbara Estate"
+  },
+  {
+    "slug": "mooleh-manay-coorg-karnataka-excelsa-84-hours-yeast-inoculated-natural-medium-roast",
+    "id": "Zp02dz5baVVxqjEfteJF",
+    "name": "Mooleh Manay: Coorg, Karnataka | Excelsa | 84 Hours Yeast Inoculated Natural | Medium Roast"
+  },
+  {
+    "slug": "silver-oak-cafe-blend",
+    "id": "ZtfrmKXqLi4FY35EJui9",
+    "name": "Silver Oak Cafe Blend"
+  },
+  {
+    "slug": "cold-brew-blend-bold",
+    "id": "aEohkWuIvqAXnV3BpNC4",
+    "name": "Cold Brew Blend Bold"
+  },
+  {
+    "slug": "project-360-black-honey",
+    "id": "aZFacrqVzmdcJ3D07Ggu",
+    "name": "Project 360 Black Honey"
+  },
+  {
+    "slug": "monsoon-malabar-aa-hoysala-estate",
+    "id": "bYr4ttC4JlU3ZC3MimhR",
+    "name": "Monsoon Malabar AA- Hoysala Estate"
+  },
+  {
+    "slug": "dhak-blend",
+    "id": "bcs2rurD3vTk1gJ3ttUH",
+    "name": "Dhak Blend"
+  },
+  {
+    "slug": "bold-whispers",
+    "id": "cYPb4H8OGIbSUOKLDbPB",
+    "name": "BOLD WHISPERS"
+  },
+  {
+    "slug": "amaltas-blend",
+    "id": "eiGevcmCBKbQ8reAEtRG",
+    "name": "Amaltas Blend"
+  },
+  {
+    "slug": "deep-bliss-arabica-robusta",
+    "id": "fdB9AejM9beCbYLZGMj3",
+    "name": "Deep Bliss (Arabica, Robusta)"
+  },
+  {
+    "slug": "naturals",
+    "id": "gkdiqCRxRnTQQPXrfwFW",
+    "name": "Naturals"
+  },
+  {
+    "slug": "rohan-bopanna-s-masterblend",
+    "id": "hY9XoNtrKx6JIzR4IyHh",
+    "name": "Rohan Bopanna's Masterblend"
+  },
+  {
+    "slug": "honey-sun-dried",
+    "id": "hbHlR7FbqLgZymD9QUky",
+    "name": "Honey Sun Dried"
+  },
+  {
+    "slug": "ratnagiri-estate",
+    "id": "iPo7OLhxAFvPkVeftKz1",
+    "name": "Ratnagiri Estate"
+  },
+  {
+    "slug": "whiskey-barrel-aged",
+    "id": "jTfsnALSqSIf0Uyqa37s",
+    "name": "Whiskey Barrel Aged"
+  },
+  {
+    "slug": "72-hour-fermented-washed",
+    "id": "jf7LqpjNsNriV9GxAAdn",
+    "name": "72 Hour Fermented Washed"
+  },
+  {
+    "slug": "signature-salawara-blend",
+    "id": "kjq0iloF8YaH4onn0AHU",
+    "name": "Signature Salawara Blend"
+  },
+  {
+    "slug": "project-pearl-ratnagiri-estate-karnataka-sca-86-culture-naturals-anaerobic-naturals-filter-roast-light",
+    "id": "mGvAz1eIANrdw66pcrgp",
+    "name": "Project Pearl, Ratnagiri Estate, Karnataka (SCA 86+): Culture naturals+ Anaerobic Naturals: Filter Roast (Light)"
+  },
+  {
+    "slug": "house-blend-medium-roast",
+    "id": "o73Y7C8fNvh6yXOGoFgI",
+    "name": "House Blend - Medium Roast"
+  },
+  {
+    "slug": "intenso-fermentation",
+    "id": "oeshsUerdk1IY2CX8TyL",
+    "name": "Intenso Fermentation"
+  },
+  {
+    "slug": "tall-dark-handsome",
+    "id": "og4ScF2uEApuTYbjJ6sl",
+    "name": "Tall Dark Handsome"
+  },
+  {
+    "slug": "signature",
+    "id": "oqzTFcemTKEu0OU8GCvN",
+    "name": "Signature"
+  },
+  {
+    "slug": "monsoon-raga-monsooned-malabar-robusta",
+    "id": "puxVF552h0u4vXlzqLwV",
+    "name": "MONSOON RAGA: MONSOONED MALABAR ROBUSTA"
+  },
+  {
+    "slug": "say-hello-to-mellow",
+    "id": "q2Aza3k9VdXp1Obx5YOi",
+    "name": "Say Hello to Mellow"
+  },
+  {
+    "slug": "krishnagiri-estate",
+    "id": "s0jl5ogx8u9e8Tsp9SSH",
+    "name": "Krishnagiri Estate"
+  },
+  {
+    "slug": "kalledevarapura-estate-pulp-sun-dried",
+    "id": "sPBnCfSvIRpdjNCIXMfY",
+    "name": "Kalledevarapura Estate - Pulp Sun Dried"
+  },
+  {
+    "slug": "micro-climate",
+    "id": "t9YE302ohM3flyloXbz6",
+    "name": "Micro Climate"
+  },
+  {
+    "slug": "project-salawara-bros",
+    "id": "tMpKKTmJEA1tFIgidS92",
+    "name": "Project Salawara Bros"
+  },
+  {
+    "slug": "espresso-blend",
+    "id": "twl348P3azm1dCh6hpzZ",
+    "name": "Espresso Blend"
+  },
+  {
+    "slug": "pineapple-fermentation",
+    "id": "v7bcrpA101sofWOgfQ6I",
+    "name": "Pineapple Fermentation"
+  },
+  {
+    "slug": "basankhan-estate",
+    "id": "vmoZyAr0Svun5bereyyu",
+    "name": "Basankhan Estate"
+  },
+  {
+    "slug": "soul-tribe-arabica",
+    "id": "vw7vtj7lX2Wwrvl6FYGl",
+    "name": "SOUL TRIBE Arabica"
+  },
+  {
+    "slug": "el-diablo",
+    "id": "xolfYs8BKtLrtYIlQ4Yq",
+    "name": "El Diablo"
+  },
+  {
+    "slug": "highland-blues-arabica",
+    "id": "xwj9ZcZiikO7fKhCh6No",
+    "name": "HIGHLAND BLUES Arabica"
+  },
+  {
+    "slug": "monsoon-raga-monsooned-malabar-arabica",
+    "id": "zeLIEYXxfsvWHKqqk0iF",
+    "name": "MONSOON RAGA: MONSOONED MALABAR ARABICA"
+  },
+  {
+    "slug": "cold-brew-new-orleans-style",
+    "id": "zsVU3ZltGxjatt7hT9V6",
+    "name": "Cold brew - New Orleans Style"
+  }
+]

@@ -1,8 +1,33 @@
 {
+    "redirects": [
+        {
+            "source": "/:path(.*)",
+            "has": [
+                {
+                    "type": "host",
+                    "value": "grind-coffee-omega.vercel.app"
+                }
+            ],
+            "destination": "https://thatsgrind.com/:path",
+            "permanent": true
+        }
+    ],
     "rewrites": [
+        {
+            "source": "/sitemap.xml",
+            "destination": "/api/sitemap"
+        },
         {
             "source": "/api/(.*)",
             "destination": "/api/$1"
+        },
+        {
+            "source": "/product/:slug",
+            "destination": "/product/:slug/index.html"
+        },
+        {
+            "source": "/merchant-feed.xml",
+            "destination": "/merchant-feed.xml"
         },
         {
             "source": "/(.*)",
