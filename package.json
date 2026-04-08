@@ -6,8 +6,6 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "generate:products": "node scripts/generate-product-pages.js",
-    "generate:feed": "node scripts/generate-merchant-feed.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },

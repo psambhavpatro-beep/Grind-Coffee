@@ -1,54 +1,51 @@
 // Vercel Serverless Function — dynamic Google Merchant Center XML feed
-// Fetches products live from Firebase, returns XML
+// Uses Firestore REST API (no credentials needed)
 // Route: /merchant-feed.xml → /api/merchant-feed
 
-import { initializeApp, getApps } from "firebase-admin/app";
-import { getFirestore } from "firebase-admin/firestore";
-
-// ── Firebase Admin init ────────────────────────────────────────────
-if (!getApps().length) {
-  initializeApp({ projectId: "blr-coffee" });
-}
-const db = getFirestore();
-
 const SITE = "https://thatsgrind.com";
+const PROJECT_ID = "blr-coffee";
+const FIRESTORE_URL = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/products?pageSize=500`;
 
-// ── Helpers ────────────────────────────────────────────────────────
+async function fetchProducts() {
+  const res = await fetch(FIRESTORE_URL);
+  if (!res.ok) throw new Error(`Firestore REST error: ${res.status}`);
+  const data = await res.json();
+  if (!data.documents) return [];
+
+  return data.documents.map((doc) => {
+    const fields = doc.fields || {};
+    const id = doc.name.split("/").pop();
+    const p = (f) => {
+      if (!f) return "";
+      if (f.stringValue !== undefined) return f.stringValue;
+      if (f.integerValue !== undefined) return Number(f.integerValue);
+      if (f.doubleValue !== undefined) return Number(f.doubleValue);
+      return "";
+    };
+    return { id, name: p(fields.name), description: p(fields.description), price: p(fields.price), image: p(fields.image) };
+  });
+}
+
 function toSlug(name) {
-  return name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
 
 function escXml(str) {
   if (!str) return "";
-  return String(str)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&apos;");
+  return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
 }
 
-// ── Handler ────────────────────────────────────────────────────────
 export default async function handler(req, res) {
   try {
-    const snap = await db.collection("products").get();
-    const products = snap.docs
-      .map((d) => ({ ...d.data(), id: d.id }))
-      .filter((p) => p.name);
-
+    const products = await fetchProducts();
     const items = products
+      .filter((p) => p.name)
       .map((p) => {
         const slug = toSlug(p.name);
         const link = `${SITE}/product/${slug}`;
         const image = p.image || `${SITE}/grind-logo-white.png`;
         const price = `${p.price || 0}.00 INR`;
-        const desc = p.description
-          ? String(p.description).slice(0, 5000)
-          : p.name;
-
+        const desc = p.description ? String(p.description).slice(0, 5000) : p.name;
         return `    <item>
       <g:id>${escXml(p.id)}</g:id>
       <g:title>${escXml(p.name)}</g:title>
