@@ -1,22 +1,35 @@
 // Vercel Serverless Function — generates sitemap.xml dynamically
-// Reads product data from Firebase Firestore so the sitemap always stays current.
-
-import { initializeApp, cert, getApps } from "firebase-admin/app";
-import { getFirestore } from "firebase-admin/firestore";
-
-// ── Firebase Admin init (reuse across warm invocations) ────────────
-if (!getApps().length) {
-  initializeApp({ projectId: "blr-coffee" });
-}
-const db = getFirestore();
+// Uses Firestore REST API (no credentials needed for public Firestore)
 
 const SITE = "https://thatsgrind.com";
+const PROJECT_ID = "blr-coffee";
+const FIRESTORE_URL = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/products?pageSize=500`;
 
 const NEIGHBORHOODS = [
   "indiranagar", "koramangala", "whitefield", "hsr-layout",
   "jayanagar", "jp-nagar", "marathahalli", "electronic-city",
   "hebbal", "malleshwaram",
 ];
+
+// ── Fetch all products via REST API ────────────────────────────────
+async function fetchProducts() {
+  const res = await fetch(FIRESTORE_URL);
+  if (!res.ok) throw new Error(`Firestore REST error: ${res.status}`);
+  const data = await res.json();
+  if (!data.documents) return [];
+
+  return data.documents.map((doc) => {
+    const fields = doc.fields || {};
+    const p = (f) => {
+      if (!f) return "";
+      if (f.stringValue !== undefined) return f.stringValue;
+      if (f.integerValue !== undefined) return Number(f.integerValue);
+      if (f.doubleValue !== undefined) return Number(f.doubleValue);
+      return "";
+    };
+    return { name: p(fields.name) };
+  });
+}
 
 function toSlug(name) {
   return name
@@ -28,10 +41,7 @@ function toSlug(name) {
 export default async function handler(req, res) {
   try {
     // Fetch all products from Firestore
-    const snap = await db.collection("products").get();
-    const products = snap.docs
-      .map(d => ({ ...d.data(), id: d.id }))
-      .filter(p => p.name);
+    const products = (await fetchProducts()).filter(p => p.name);
 
     const today = new Date().toISOString().split("T")[0];
 
