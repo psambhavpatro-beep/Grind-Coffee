@@ -66,7 +66,7 @@ export default async function handler(req, res) {
   <channel>
     <title>Grind - Specialty Coffee Bangalore</title>
     <link>${SITE}</link>
-    <description>Premium specialty coffee delivered fast in Bangalore</description>
+    <description>Premium specialty coffee delivered in 45 minutes in Bangalore</description>
 ${items}
   </channel>
 </rss>`;
@@ -81,7 +81,7 @@ ${items}
   <channel>
     <title>Grind - Specialty Coffee Bangalore</title>
     <link>${SITE}</link>
-    <description>Premium specialty coffee delivered fast in Bangalore</description>
+    <description>Premium specialty coffee delivered in 45 minutes in Bangalore</description>
   </channel>
 </rss>`;
     res.setHeader("Content-Type", "application/xml; charset=utf-8");

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/grind-favicon.png" />
+  <title>About Us | Grind — Specialty Coffee, Fast.</title>
+  <meta name="description" content="Grind was born out of a genuine problem — specialty coffee that takes too long to arrive. Meet Sambhav, the founder who built a faster way to get great coffee in Bangalore." />
+  <meta name="theme-color" content="#1a1612" />
+  <link rel="canonical" href="https://thatsgrind.com/about" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Grind" />
+  <meta property="og:title" content="About Us | Grind — Specialty Coffee, Fast." />
+  <meta property="og:description" content="Grind was born out of a genuine problem — specialty coffee that takes too long to arrive. Meet Sambhav, the founder who built a faster way to get great coffee in Bangalore." />
+  <meta property="og:url" content="https://thatsgrind.com/about" />
+  <meta property="og:image" content="https://thatsgrind.com/grind-logo-white.png" />
+  <meta property="og:locale" content="en_IN" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="About Us | Grind — Specialty Coffee, Fast." />
+  <meta name="twitter:description" content="Grind was born out of a genuine problem — specialty coffee that takes too long to arrive. Meet Sambhav, the founder who built a faster way to get great coffee in Bangalore." />
+  <meta name="twitter:image" content="https://thatsgrind.com/grind-logo-white.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Grind",
+    "url": "https://thatsgrind.com",
+    "logo": "https://thatsgrind.com/grind-logo-white.png",
+    "description": "Bangalore's specialty coffee quick commerce app — delivered in 45 minutes.",
+    "telephone": "+918114990288",
+    "email": "support@thatsgrind.com",
+    "areaServed": {
+      "@type": "City",
+      "name": "Bangalore"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Bangalore",
+      "addressRegion": "Karnataka",
+      "addressCountry": "IN"
+    },
+    "founder": {
+      "@type": "Person",
+      "name": "Sambhav Patro",
+      "jobTitle": "Founder",
+      "sameAs": "https://www.linkedin.com/in/p-sambhav-patro-42b788280"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f7f4ef;
+      color: #1a1612;
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── NAV ─────────────────────────────────────────── */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      border-bottom: 1px solid rgba(26, 22, 18, .08);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #1a1612;
+    }
+    .nav-logo .dot { color: #b5703a; }
+    .nav-order {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #7a6a5e;
+      border: 1.5px solid #7a6a5e;
+      padding: 8px 20px;
+      border-radius: 4px;
+      transition: all .2s ease;
+    }
+    .nav-order:hover {
+      color: #1a1612;
+      border-color: #1a1612;
+    }
+
+    /* ── HERO ────────────────────────────────────────── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 80vh;
+    }
+    .hero-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 64px 80px 64px;
+      max-width: 640px;
+      margin-left: auto;
+    }
+    .hero-img {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      filter: sepia(0.12) contrast(1.02);
+    }
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #b5703a;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 4.5vw, 56px);
+      font-weight: 700;
+      line-height: 1.15;
+      color: #1a1612;
+      margin-bottom: 28px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: #b5703a;
+    }
+    .hero-body {
+      font-size: 17px;
+      color: #3d2b1f;
+      line-height: 1.8;
+      max-width: 480px;
+    }
+
+    /* ── STORY ───────────────────────────────────────── */
+    .story {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 100px 40px;
+    }
+    .story h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3.5vw, 40px);
+      font-weight: 700;
+      margin-bottom: 40px;
+      color: #1a1612;
+    }
+    .story p {
+      font-size: 16px;
+      color: #3d2b1f;
+      margin-bottom: 24px;
+      line-height: 1.85;
+    }
+
+    /* ── VALUES ──────────────────────────────────────── */
+    .values {
+      background: #f0ebe4;
+      padding: 100px 40px;
+    }
+    .values-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+    .values h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3.5vw, 40px);
+      font-weight: 700;
+      margin-bottom: 56px;
+      color: #1a1612;
+    }
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+    }
+    .value-card {
+      border-top: 2px solid #b5703a;
+      padding-top: 28px;
+    }
+    .value-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 14px;
+      color: #1a1612;
+    }
+    .value-card p {
+      font-size: 15px;
+      color: #7a6a5e;
+      line-height: 1.75;
+    }
+
+    /* ── FOUNDER ─────────────────────────────────────── */
+    .founder {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 100px 40px;
+    }
+    .founder-card {
+      background: #1a1612;
+      border-radius: 12px;
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      overflow: hidden;
+    }
+    .founder-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      filter: sepia(0.1) contrast(1.04);
+    }
+    .founder-text {
+      padding: 56px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .founder-text .eyebrow {
+      color: #b5703a;
+    }
+    .founder-text h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #f7f4ef;
+      margin-bottom: 6px;
+    }
+    .founder-text .title {
+      font-size: 14px;
+      color: #7a6a5e;
+      margin-bottom: 28px;
+    }
+    .founder-text p {
+      font-size: 15px;
+      color: rgba(247, 244, 239, .75);
+      line-height: 1.8;
+      margin-bottom: 18px;
+    }
+    .linkedin-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #b5703a;
+      margin-top: 8px;
+      letter-spacing: 0.3px;
+      transition: opacity .2s;
+    }
+    .linkedin-link:hover { opacity: .75; }
+
+    /* ── CTA ─────────────────────────────────────────── */
+    .cta {
+      text-align: center;
+      padding: 100px 40px;
+      border-top: 1px solid rgba(26, 22, 18, .08);
+    }
+    .cta h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3.5vw, 40px);
+      font-weight: 700;
+      color: #1a1612;
+      margin-bottom: 14px;
+    }
+    .cta .cta-body {
+      font-size: 16px;
+      color: #7a6a5e;
+      margin-bottom: 36px;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: #1a1612;
+      color: #f7f4ef;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      padding: 16px 44px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: transform .15s, opacity .15s;
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      opacity: .9;
+    }
+
+    /* ── FOOTER ──────────────────────────────────────── */
+    .footer {
+      border-top: 1px solid rgba(26, 22, 18, .08);
+      padding: 32px 40px;
+      text-align: center;
+      font-size: 13px;
+      color: #7a6a5e;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+      .hero-text {
+        padding: 60px 32px;
+        max-width: 100%;
+        margin-left: 0;
+      }
+      .hero-img {
+        height: 50vh;
+        order: -1;
+      }
+      .values-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .founder-card {
+        grid-template-columns: 1fr;
+      }
+      .founder-img {
+        height: 360px;
+      }
+      .founder-text {
+        padding: 40px 32px;
+      }
+      .nav { padding: 16px 24px; }
+      .story { padding: 72px 28px; }
+      .values { padding: 72px 28px; }
+      .founder { padding: 72px 28px; }
+      .cta { padding: 72px 28px; }
+    }
+
+    @media (max-width: 500px) {
+      .hero h1 { font-size: 32px; }
+      .hero-body { font-size: 15px; }
+      .nav-logo { font-size: 22px; }
+      .founder-text h3 { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="/" class="nav-logo">grind<span class="dot">.</span></a>
+    <a href="/" class="nav-order">Order Now</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <p class="eyebrow">Our Story</p>
+      <h1>Built out of a <em>genuine problem</em></h1>
+      <p class="hero-body">Grind exists because great coffee shouldn't come with a three-day wait. We're Bangalore's specialty coffee quick commerce app — delivered in 45 minutes, no compromises on quality.</p>
+    </div>
+    <div class="hero-img">
+      <img src="../sambhav.jpg" alt="Sambhav Patro, Founder of Grind" />
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="story">
+    <p class="eyebrow">The Origin</p>
+    <h2>How Grind started</h2>
+    <p>It started with brain fog and a forgotten coffee order. Sambhav, our founder, was running on empty — not because good coffee didn't exist in Bangalore, but because getting it delivered fast felt impossible. He was maintaining a Notion tracker just to remember when to reorder. He'd still forget. And when he did order, it took days.</p>
+    <p>The existing options were either too slow, too generic, or both. Specialty coffee — the kind that actually has a story behind the bean — was treated like a slow-moving luxury product when it didn't have to be.</p>
+    <p>So Sambhav built Grind. The idea was simple: treat specialty coffee the way you'd treat any other essential. Make it fast. Keep it good. Don't make people think about it — just get it to them.</p>
+    <p>What started as a personal frustration is now a quick commerce platform serving coffee lovers across all of Bangalore. Every order is a small proof that the wait wasn't worth it.</p>
+  </section>
+
+  <!-- VALUES -->
+  <section class="values">
+    <div class="values-inner">
+      <p class="eyebrow">What drives us</p>
+      <h2>Three things we don't compromise on</h2>
+      <div class="values-grid">
+        <div class="value-card">
+          <h3>Speed is the product</h3>
+          <p>Quick commerce isn't a feature — it's the entire point. If you have to plan your coffee order days in advance, something is broken.</p>
+        </div>
+        <div class="value-card">
+          <h3>Specialty, not generic</h3>
+          <p>We only carry coffees that have something interesting to say — single origins, thoughtful roasts, beans with provenance. No filler.</p>
+        </div>
+        <div class="value-card">
+          <h3>Built to experiment</h3>
+          <p>Sambhav describes himself as a nerd who loves to experiment. That means we're always testing new origins, formats, and ideas — if it's good, it makes the cut.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUNDER -->
+  <section class="founder">
+    <div class="founder-card">
+      <div class="founder-img">
+        <img src="../sambhav.jpg" alt="Sambhav Patro" />
+      </div>
+      <div class="founder-text">
+        <p class="eyebrow">The Founder</p>
+        <h3>Sambhav Patro</h3>
+        <p class="title">Founder, Grind · BBA Entrepreneurship, Jain University CMS</p>
+        <p>Sambhav is a student at Jain University — studying entrepreneurship by day and building Grind the rest of the time. He calls himself a student of life more than anything else: someone who runs toward problems that annoy him and builds until they don't.</p>
+        <p>Grind is his answer to a problem he lived every single day. He's also the kind of founder who will text you if the coffee was bad.</p>
+        <a href="https://www.linkedin.com/in/p-sambhav-patro-42b788280" target="_blank" rel="noopener" class="linkedin-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.47 2H3.53A1.45 1.45 0 0 0 2 3.47v17.06A1.45 1.45 0 0 0 3.47 22h17.06A1.45 1.45 0 0 0 22 20.53V3.47A1.45 1.45 0 0 0 20.47 2ZM8.09 18.74h-3v-9h3v9ZM6.59 8.48a1.56 1.56 0 1 1 0-3.12 1.56 1.56 0 1 1 0 3.12Zm12.32 10.26h-3v-4.83c0-1.21-.43-2-1.52-2A1.65 1.65 0 0 0 12.85 13a2 2 0 0 0-.1.73v5h-3v-9h3v1.2a3 3 0 0 1 2.71-1.5c2 0 3.45 1.29 3.45 4.06v5.25Z"/></svg>
+          Connect on LinkedIn →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <p class="eyebrow">Ready to try it?</p>
+    <h2>Your next cup shouldn't take days</h2>
+    <p class="cta-body">Specialty coffee, delivered in 45 minutes across Bangalore.</p>
+    <a href="/" class="cta-btn">Order Now →</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2025 Grind. Bangalore. | Specialty coffee, fast.</p>
+  </footer>
+
+</body>
+</html>

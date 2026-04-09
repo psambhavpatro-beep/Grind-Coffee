@@ -23,7 +23,7 @@ export default function CartDrawer({ cart, total, onQty, onRemove, onClose, onCh
 
                 {/* ETA strip */}
                 <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 8, padding: "8px 12px", marginBottom: 14, fontFamily: "sans-serif", fontSize: 12, color: "#166534", display: "flex", alignItems: "center", gap: 8 }}>
-                    <span>⚡</span><span><strong>45–90 min delivery</strong> across Bengaluru</span>
+                    <span>⚡</span><span><strong>Delivered in 45 min</strong> across Bengaluru</span>
                 </div>
 
                 {/* Empty state */}

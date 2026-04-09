@@ -30,6 +30,10 @@
             "destination": "/api/merchant-feed"
         },
         {
+            "source": "/about",
+            "destination": "/about/index.html"
+        },
+        {
             "source": "/deliver/:slug",
             "destination": "/deliver/:slug/index.html"
         },

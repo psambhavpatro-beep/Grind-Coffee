@@ -16,7 +16,7 @@ export function PCard({ p, v, onProd, onVendor, wished, onWish, rating }) {
                 <p style={S.cardOrig}>{p.origin}</p>
                 <h3 style={S.cardName} onClick={() => onProd(p)}>{p.name}</h3>
                 <p style={S.cardNotes}>{p.notes}</p>
-                <div style={S.etaBadge}>⚡ 45–90 min delivery · BLR</div>
+                <div style={S.etaBadge}>⚡ Delivered in 45 min · BLR</div>
                 {parseFloat(rating) > 0 && (
                     <p style={S.cardRating}>
                         {"★".repeat(Math.round(rating))}{"☆".repeat(5 - Math.round(rating))}
@@ -51,8 +51,8 @@ export default function ShopView({ products, allProducts, vendors, filter, setFi
         <div>
             {/* Hero */}
             <div style={S.hero} className="hero-section">
-                <p style={S.heroEye}>⚡ Bengaluru's Fastest Coffee Delivery</p>
-                <h1 style={S.heroH}>Specialty coffee<br />in under 90 mins.</h1>
+                <p style={S.heroEye}>⚡ Delivered in 45 Minutes Across Bengaluru</p>
+                <h1 style={S.heroH}>Specialty coffee<br />in under 45 mins.</h1>
                 <p style={S.heroP}>Single-origin, freshly roasted, straight from Bengaluru's finest roasters — to your door.</p>
                 <div style={S.heroSearch}>
                     <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, pointerEvents: "none" }}>🔍</span>

@@ -11,8 +11,8 @@ import * as api from "./api";
 // SEO HELPER — dynamically updates <head> meta tags per view
 // ═══════════════════════════════════════════════════════════════════
 const SITE = "https://thatsgrind.com";
-const DEFAULT_TITLE = "Grind — Specialty Coffee Delivered Fast in Bangalore";
-const DEFAULT_DESC = "Order freshly roasted specialty coffee online in Bangalore. Fast delivery across all neighborhoods. Filter coffee, single origins, and more.";
+const DEFAULT_TITLE = "Grind — Specialty Coffee Delivered in 45 Minutes in Bangalore";
+const DEFAULT_DESC = "Order freshly roasted specialty coffee online in Bangalore. Delivered in 45 minutes across all neighborhoods. Filter coffee, single origins, and more.";
 const OG_IMAGE = `${SITE}/grind-logo-white.png`;
 
 function toSlug(name) {
@@ -224,7 +224,7 @@ export default function App() {
       const p = selProduct;
       const slug = toSlug(p.name);
       const title = `${p.name} — ${p.origin} ${p.roastType} Roast | Grind`;
-      const desc = `${p.name}: ${p.notes || ""} — ${p.roastType} roast from ${p.origin}. ${p.description || ""} Order online for fast delivery in Bangalore.`.slice(0, 160);
+      const desc = `${p.name}: ${p.notes || ""} — ${p.roastType} roast from ${p.origin}. ${p.description || ""} Delivered in 45 minutes in Bangalore.`.slice(0, 160);
       const url = `${SITE}/product/${slug}`;
       updateSEO({ title, description: desc, url, image: p.image, product: p });
     } else if (view === "roaster" && selVendor) {

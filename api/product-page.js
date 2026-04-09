@@ -55,8 +55,8 @@ function renderProductHTML(product) {
   const url = `${SITE}/product/${slug}`;
   const title = `${product.name} | Grind - Specialty Coffee Bangalore`;
   const desc = product.description
-    ? `${String(product.description).slice(0, 140)} - delivered fast in Bangalore by Grind`
-    : `${product.name} - premium specialty coffee delivered fast in Bangalore by Grind`;
+    ? `${String(product.description).slice(0, 140)} - delivered in 45 minutes in Bangalore by Grind`
+    : `${product.name} - premium specialty coffee delivered in 45 minutes in Bangalore by Grind`;
   const image = product.image || `${SITE}/grind-logo-white.png`;
   const price = product.price || 0;
   const weight = product.weight || "250g";

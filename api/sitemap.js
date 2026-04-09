@@ -55,6 +55,14 @@ export default async function handler(req, res) {
     <priority>1.0</priority>
   </url>
 
+  <!-- About Page -->
+  <url>
+    <loc>${SITE}/about</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
   <!-- Product Pages -->
 ${products.map(p => `  <url>
     <loc>${SITE}/product/${toSlug(p.name)}</loc>

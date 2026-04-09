@@ -132,7 +132,7 @@ export default function ProductView({ product: p, vendor: v, grind, setGrind, on
                         <span style={{ fontSize: 22 }}>⚡</span>
                         <div>
                             <p style={{ fontSize: 13, fontWeight: 700, color: "#2d6a4f", fontFamily: "sans-serif" }}>Express Delivery · Bengaluru</p>
-                            <p style={{ fontSize: 12, color: "#1b4332", fontFamily: "sans-serif" }}>Order now → arrives in 45–90 mins · Flat ₹{DELIVERY_FEE} delivery fee</p>
+                            <p style={{ fontSize: 12, color: "#1b4332", fontFamily: "sans-serif" }}>Order now → delivered in 45 mins · Flat ₹{DELIVERY_FEE} delivery fee</p>
                         </div>
                     </div>
 
