@@ -15,6 +15,10 @@ const DEFAULT_TITLE = "Grind — Specialty Coffee Delivered Fast in Bangalore";
 const DEFAULT_DESC = "Order freshly roasted specialty coffee online in Bangalore. Fast delivery across all neighborhoods. Filter coffee, single origins, and more.";
 const OG_IMAGE = `${SITE}/grind-logo-white.png`;
 
+function toSlug(name) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
+
 function setMeta(name, content) {
   let el = document.querySelector(`meta[name="${name}"]`) || document.querySelector(`meta[property="${name}"]`);
   if (!el) {
@@ -136,9 +140,20 @@ export default function App() {
         setProducts(prods);
         setVendors(fbVendors);
 
+        // Support both /product/slug (new) and /?p=id (legacy)
+        const path = window.location.pathname;
+        const slugMatch = path.match(/^\/product\/(.+)/);
         const params = new URLSearchParams(window.location.search);
         const pId = params.get("p");
-        if (pId) {
+
+        if (slugMatch) {
+          const slug = slugMatch[1];
+          const p = prods.find(x => x.name && toSlug(x.name) === slug);
+          if (p) {
+            setSelProduct(p);
+            setView("product");
+          }
+        } else if (pId) {
           const p = prods.find(x => x.id === pId);
           if (p) {
             setSelProduct(p);
@@ -185,13 +200,32 @@ export default function App() {
     };
   }, []);
 
+  // ── BROWSER BACK/FORWARD SUPPORT ──
+  useEffect(() => {
+    const onPopState = () => {
+      const path = window.location.pathname;
+      const slugMatch = path.match(/^\/product\/(.+)/);
+      if (slugMatch) {
+        const slug = slugMatch[1];
+        const p = products.find(x => x.name && toSlug(x.name) === slug);
+        if (p) { setSelProduct(p); setView("product"); return; }
+      }
+      // Default: go back to shop
+      setSelProduct(null);
+      setView("shop");
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, [products]);
+
   // ── DYNAMIC SEO — update <head> whenever the view changes ──
   useEffect(() => {
     if (view === "product" && selProduct) {
       const p = selProduct;
+      const slug = toSlug(p.name);
       const title = `${p.name} — ${p.origin} ${p.roastType} Roast | Grind`;
       const desc = `${p.name}: ${p.notes || ""} — ${p.roastType} roast from ${p.origin}. ${p.description || ""} Order online for fast delivery in Bangalore.`.slice(0, 160);
-      const url = `${SITE}/?p=${p.id}`;
+      const url = `${SITE}/product/${slug}`;
       updateSEO({ title, description: desc, url, image: p.image, product: p });
     } else if (view === "roaster" && selVendor) {
       updateSEO({
@@ -415,6 +449,15 @@ export default function App() {
     if (extra.product !== undefined) setSelProduct(extra.product);
     if (extra.editProd !== undefined) setEditProd(extra.editProd);
     setView(v);
+
+    // Update browser URL for product pages
+    if (v === "product" && extra.product) {
+      const slug = toSlug(extra.product.name);
+      window.history.pushState({ view: v, slug }, "", `/product/${slug}`);
+    } else if (v === "shop") {
+      window.history.pushState({ view: v }, "", `/`);
+    }
+
     window.scrollTo(0, 0);
   };
 
