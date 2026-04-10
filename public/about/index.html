@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="/grind-favicon.png" />
   <title>About Us | Grind — Specialty Coffee, Fast.</title>
-  <meta name="description" content="Grind was born out of a genuine problem — specialty coffee that takes too long to arrive. Meet Sambhav, the founder who built a faster way to get great coffee in Bangalore." />
+  <meta name="description"
+    content="Grind was born out of a genuine problem — specialty coffee that takes too long to arrive. Meet Sambhav, the founder who built a faster way to get great coffee in Bangalore." />
   <meta name="theme-color" content="#1a1612" />
   <link rel="canonical" href="https://thatsgrind.com/about" />
 
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Grind" />
   <meta property="og:title" content="About Us | Grind — Specialty Coffee, Fast." />
-  <meta property="og:description" content="Grind was born out of a genuine problem — specialty coffee that takes too long to arrive. Meet Sambhav, the founder who built a faster way to get great coffee in Bangalore." />
+  <meta property="og:description"
+    content="Grind was born out of a genuine problem — specialty coffee that takes too long to arrive. Meet Sambhav, the founder who built a faster way to get great coffee in Bangalore." />
   <meta property="og:url" content="https://thatsgrind.com/about" />
   <meta property="og:image" content="https://thatsgrind.com/grind-logo-white.png" />
   <meta property="og:locale" content="en_IN" />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="About Us | Grind — Specialty Coffee, Fast." />
-  <meta name="twitter:description" content="Grind was born out of a genuine problem — specialty coffee that takes too long to arrive. Meet Sambhav, the founder who built a faster way to get great coffee in Bangalore." />
+  <meta name="twitter:description"
+    content="Grind was born out of a genuine problem — specialty coffee that takes too long to arrive. Meet Sambhav, the founder who built a faster way to get great coffee in Bangalore." />
   <meta name="twitter:image" content="https://thatsgrind.com/grind-logo-white.png" />
 
   <script type="application/ld+json">
@@ -53,10 +57,18 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       background: #f7f4ef;
@@ -64,93 +76,326 @@
       font-family: 'DM Sans', sans-serif;
       line-height: 1.7;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
-    a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    /* ── SCROLL REVEAL ANIMATIONS ─────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(50px);
+      transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .reveal-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .reveal-scale {
+      opacity: 0;
+      transform: scale(0.92);
+      transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .reveal-scale.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Stagger children */
+    .stagger>* {
+      transition-delay: calc(var(--i, 0) * 0.12s);
+    }
 
     /* ── NAV ─────────────────────────────────────────── */
     .nav {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 20px 40px;
-      border-bottom: 1px solid rgba(26, 22, 18, .08);
+      padding: 16px 40px;
+      background: #1b4332;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
+
     .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 26px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-      color: #1a1612;
+      display: flex;
+      align-items: center;
     }
-    .nav-logo .dot { color: #b5703a; }
+
+    .nav-logo img {
+      height: 50px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-link {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, .8);
+      padding: 6px 12px;
+      transition: color .2s ease;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .nav-link:hover {
+      color: #fff;
+    }
+
+    .nav-link.active {
+      color: #fff;
+      font-weight: 700;
+    }
+
     .nav-order {
       font-size: 13px;
       font-weight: 600;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: #7a6a5e;
-      border: 1.5px solid #7a6a5e;
+      color: #1b4332;
+      background: #fff;
       padding: 8px 20px;
-      border-radius: 4px;
+      border-radius: 8px;
       transition: all .2s ease;
     }
+
     .nav-order:hover {
-      color: #1a1612;
-      border-color: #1a1612;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
     }
 
     /* ── HERO ────────────────────────────────────────── */
     .hero {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-height: 80vh;
-    }
-    .hero-text {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 80px 64px 80px 64px;
-      max-width: 640px;
-      margin-left: auto;
-    }
-    .hero-img {
       position: relative;
+      min-height: 92vh;
+      display: flex;
+      align-items: flex-end;
       overflow: hidden;
+      background: #0a0a0a;
     }
-    .hero-img img {
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .hero-bg img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center top;
-      filter: sepia(0.12) contrast(1.02);
+      object-position: center 20%;
+      filter: brightness(0.55) contrast(1.1) saturate(0.9);
+      transition: transform 12s ease;
     }
+
+    .hero:hover .hero-bg img {
+      transform: scale(1.03);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.35) 50%, rgba(0, 0, 0, 0.85) 100%),
+        linear-gradient(90deg, rgba(27, 67, 50, 0.3) 0%, transparent 60%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      max-width: 720px;
+      padding: 0 64px 80px;
+    }
+
     .eyebrow {
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 3px;
       text-transform: uppercase;
-      color: #b5703a;
+      color: #1b4332;
       margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
+
+    .eyebrow::before {
+      content: '';
+      width: 32px;
+      height: 2px;
+      background: #1b4332;
+      display: inline-block;
+    }
+
+    /* Hero-specific green accent */
+    .hero .eyebrow {
+      color: #4ade80;
+    }
+
+    .hero .eyebrow::before {
+      background: #4ade80;
+    }
+
     .hero h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(36px, 4.5vw, 56px);
+      font-size: clamp(38px, 5vw, 64px);
       font-weight: 700;
-      line-height: 1.15;
-      color: #1a1612;
-      margin-bottom: 28px;
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: 24px;
     }
+
     .hero h1 em {
       font-style: italic;
-      color: #b5703a;
+      color: #4ade80;
     }
+
     .hero-body {
-      font-size: 17px;
-      color: #3d2b1f;
-      line-height: 1.8;
-      max-width: 480px;
+      font-size: 18px;
+      color: rgba(255, 255, 255, .75);
+      line-height: 1.75;
+      max-width: 520px;
+      margin-bottom: 32px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #1b4332;
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      letter-spacing: 0.3px;
+      transition: all .25s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .hero-cta:hover {
+      background: #2d6a4f;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(27, 67, 50, .4);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, .1);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, .15);
+      color: rgba(255, 255, 255, .8);
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all .2s ease;
+    }
+
+    .hero-badge .pulse {
+      width: 8px;
+      height: 8px;
+      background: #4ade80;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: .6;
+        transform: scale(1.3);
+      }
+    }
+
+    /* ── NUMBERS STRIP ──────────────────────────────── */
+    .numbers {
+      background: #1a1612;
+      padding: 48px 40px;
+      overflow: hidden;
+    }
+
+    .numbers-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      text-align: center;
+    }
+
+    .number-item .num {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 4vw, 52px);
+      font-weight: 700;
+      color: #4ade80;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .number-item .num-label {
+      font-size: 13px;
+      color: rgba(247, 244, 239, .5);
+      letter-spacing: 0.5px;
     }
 
     /* ── STORY ───────────────────────────────────────── */
@@ -159,6 +404,7 @@
       margin: 0 auto;
       padding: 100px 40px;
     }
+
     .story h2 {
       font-family: 'Playfair Display', serif;
       font-size: clamp(28px, 3.5vw, 40px);
@@ -166,6 +412,7 @@
       margin-bottom: 40px;
       color: #1a1612;
     }
+
     .story p {
       font-size: 16px;
       color: #3d2b1f;
@@ -173,15 +420,33 @@
       line-height: 1.85;
     }
 
+    .story p strong {
+      color: #1a1612;
+      font-weight: 700;
+    }
+
+    .story-quote {
+      border-left: 3px solid #1b4332;
+      padding-left: 24px;
+      margin: 40px 0;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 20px;
+      color: #3d2b1f;
+      line-height: 1.6;
+    }
+
     /* ── VALUES ──────────────────────────────────────── */
     .values {
       background: #f0ebe4;
       padding: 100px 40px;
     }
+
     .values-inner {
       max-width: 1080px;
       margin: 0 auto;
     }
+
     .values h2 {
       font-family: 'Playfair Display', serif;
       font-size: clamp(28px, 3.5vw, 40px);
@@ -189,15 +454,29 @@
       margin-bottom: 56px;
       color: #1a1612;
     }
+
     .values-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 40px;
     }
+
     .value-card {
-      border-top: 2px solid #b5703a;
+      border-top: 2px solid #1b4332;
       padding-top: 28px;
+      transition: transform .3s ease;
     }
+
+    .value-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .value-card .value-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
     .value-card h3 {
       font-family: 'Playfair Display', serif;
       font-size: 20px;
@@ -205,41 +484,144 @@
       margin-bottom: 14px;
       color: #1a1612;
     }
+
     .value-card p {
       font-size: 15px;
       color: #7a6a5e;
       line-height: 1.75;
     }
 
+    /* ── TIMELINE ────────────────────────────────────── */
+    .timeline {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 100px 40px;
+    }
+
+    .timeline h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3.5vw, 40px);
+      font-weight: 700;
+      margin-bottom: 56px;
+      color: #1a1612;
+    }
+
+    .tl-item {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 48px;
+      position: relative;
+    }
+
+    .tl-marker {
+      flex-shrink: 0;
+      width: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .tl-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #1b4332;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .tl-dot::after {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: calc(100% + 36px);
+      background: #e0d6c9;
+    }
+
+    .tl-item:last-child .tl-dot::after {
+      display: none;
+    }
+
+    .tl-content h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1612;
+      margin-bottom: 6px;
+    }
+
+    .tl-content .tl-date {
+      font-size: 12px;
+      color: #1b4332;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .tl-content p {
+      font-size: 15px;
+      color: #7a6a5e;
+      line-height: 1.7;
+    }
+
     /* ── FOUNDER ─────────────────────────────────────── */
     .founder {
       max-width: 1080px;
       margin: 0 auto;
-      padding: 100px 40px;
+      padding: 40px 40px 100px;
     }
+
     .founder-card {
       background: #1a1612;
-      border-radius: 12px;
+      border-radius: 16px;
       display: grid;
-      grid-template-columns: 340px 1fr;
+      grid-template-columns: 380px 1fr;
+      overflow: hidden;
+      box-shadow: 0 24px 48px rgba(26, 22, 18, .15);
+      transition: box-shadow .4s ease;
+    }
+
+    .founder-card:hover {
+      box-shadow: 0 32px 64px rgba(26, 22, 18, .25);
+    }
+
+    .founder-img {
+      position: relative;
       overflow: hidden;
     }
+
     .founder-img img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: center top;
       filter: sepia(0.1) contrast(1.04);
+      transition: transform 4s ease;
     }
+
+    .founder-card:hover .founder-img img {
+      transform: scale(1.04);
+    }
+
     .founder-text {
       padding: 56px 56px;
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
+
     .founder-text .eyebrow {
-      color: #b5703a;
+      color: #4ade80;
     }
+
+    .founder-text .eyebrow::before {
+      background: #4ade80;
+    }
+
     .founder-text h3 {
       font-family: 'Playfair Display', serif;
       font-size: 32px;
@@ -247,48 +629,92 @@
       color: #f7f4ef;
       margin-bottom: 6px;
     }
+
     .founder-text .title {
       font-size: 14px;
       color: #7a6a5e;
       margin-bottom: 28px;
     }
+
     .founder-text p {
       font-size: 15px;
       color: rgba(247, 244, 239, .75);
       line-height: 1.8;
       margin-bottom: 18px;
     }
+
     .linkedin-link {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       font-size: 13px;
       font-weight: 600;
-      color: #b5703a;
-      margin-top: 8px;
+      color: #fff;
+      background: #1b4332;
+      padding: 10px 20px;
+      border-radius: 8px;
+      margin-top: 12px;
       letter-spacing: 0.3px;
-      transition: opacity .2s;
+      transition: all .2s;
+      width: fit-content;
     }
-    .linkedin-link:hover { opacity: .75; }
+
+    .linkedin-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(181, 112, 58, .4);
+    }
 
     /* ── CTA ─────────────────────────────────────────── */
     .cta {
       text-align: center;
       padding: 100px 40px;
-      border-top: 1px solid rgba(26, 22, 18, .08);
+      background: linear-gradient(180deg, #f7f4ef 0%, #f0ebe4 100%);
+      position: relative;
+      overflow: hidden;
     }
+
+    .cta::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      border: 1px solid rgba(181, 112, 58, .1);
+      pointer-events: none;
+    }
+
+    .cta::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      border: 1px solid rgba(181, 112, 58, .06);
+      pointer-events: none;
+    }
+
     .cta h2 {
       font-family: 'Playfair Display', serif;
       font-size: clamp(28px, 3.5vw, 40px);
       font-weight: 700;
       color: #1a1612;
       margin-bottom: 14px;
+      position: relative;
     }
+
     .cta .cta-body {
       font-size: 16px;
       color: #7a6a5e;
       margin-bottom: 36px;
+      position: relative;
     }
+
     .cta-btn {
       display: inline-block;
       background: #1a1612;
@@ -298,134 +724,335 @@
       font-weight: 700;
       letter-spacing: 0.5px;
       padding: 16px 44px;
-      border-radius: 6px;
+      border-radius: 50px;
       border: none;
       cursor: pointer;
-      transition: transform .15s, opacity .15s;
+      transition: all .2s ease;
+      position: relative;
     }
+
     .cta-btn:hover {
-      transform: translateY(-2px);
-      opacity: .9;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(26, 22, 18, .2);
     }
 
     /* ── FOOTER ──────────────────────────────────────── */
     .footer {
-      border-top: 1px solid rgba(26, 22, 18, .08);
-      padding: 32px 40px;
+      background: #1a1612;
+      padding: 48px 40px;
       text-align: center;
+    }
+
+    .footer-inner {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #f7f4ef;
+      margin-bottom: 16px;
+    }
+
+    .footer-contact {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .footer-contact a {
       font-size: 13px;
-      color: #7a6a5e;
+      color: rgba(247, 244, 239, .6);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color .2s;
+    }
+
+    .footer-contact a:hover {
+      color: #4ade80;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: rgba(247, 244, 239, .3);
+      margin-top: 8px;
     }
 
     /* ── RESPONSIVE ──────────────────────────────────── */
     @media (max-width: 900px) {
       .hero {
-        grid-template-columns: 1fr;
-        min-height: auto;
+        min-height: 80vh;
       }
-      .hero-text {
-        padding: 60px 32px;
-        max-width: 100%;
-        margin-left: 0;
+
+      .hero-content {
+        padding: 0 32px 56px;
       }
-      .hero-img {
-        height: 50vh;
-        order: -1;
+
+      .numbers-inner {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
       }
+
       .values-grid {
         grid-template-columns: 1fr;
         gap: 32px;
       }
+
       .founder-card {
         grid-template-columns: 1fr;
       }
+
       .founder-img {
         height: 360px;
       }
+
       .founder-text {
         padding: 40px 32px;
       }
-      .nav { padding: 16px 24px; }
-      .story { padding: 72px 28px; }
-      .values { padding: 72px 28px; }
-      .founder { padding: 72px 28px; }
-      .cta { padding: 72px 28px; }
+
+      .nav {
+        padding: 12px 20px;
+      }
+
+      .nav-links {
+        gap: 4px;
+      }
+
+      .nav-link {
+        font-size: 12px;
+        padding: 6px 8px;
+      }
+
+      .story {
+        padding: 72px 28px;
+      }
+
+      .values {
+        padding: 72px 28px;
+      }
+
+      .timeline {
+        padding: 72px 28px;
+      }
+
+      .founder {
+        padding: 32px 28px 72px;
+      }
+
+      .cta {
+        padding: 72px 28px;
+      }
     }
 
     @media (max-width: 500px) {
-      .hero h1 { font-size: 32px; }
-      .hero-body { font-size: 15px; }
-      .nav-logo { font-size: 22px; }
-      .founder-text h3 { font-size: 26px; }
+      .hero h1 {
+        font-size: 30px;
+      }
+
+      .hero-body {
+        font-size: 15px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .nav-logo img {
+        height: 40px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .founder-text h3 {
+        font-size: 26px;
+      }
+
+      .number-item .num {
+        font-size: 32px;
+      }
+
+      .tl-marker {
+        width: 36px;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <!-- NAV -->
   <nav class="nav">
-    <a href="/" class="nav-logo">grind<span class="dot">.</span></a>
-    <a href="/" class="nav-order">Order Now</a>
+    <a href="/" class="nav-logo">
+      <img src="/grind-logo-white.png" alt="Grind — Specialty Coffee" />
+    </a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Shop</a>
+      <a href="/about" class="nav-link active">About</a>
+      <a href="/" class="nav-order">Order Now</a>
+    </div>
   </nav>
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-text">
-      <p class="eyebrow">Our Story</p>
-      <h1>Built out of a <em>genuine problem</em></h1>
-      <p class="hero-body">Grind exists because great coffee shouldn't come with a three-day wait. We're Bangalore's specialty coffee quick commerce app — delivered in 45 minutes, no compromises on quality.</p>
+    <div class="hero-bg">
+      <img src="/sambhav.jpg" alt="Sambhav Patro, Founder of Grind" />
     </div>
-    <div class="hero-img">
-      <img src="../sambhav.jpg" alt="Sambhav Patro, Founder of Grind" />
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="eyebrow reveal">Meet Grind</p>
+      <h1 class="reveal" style="transition-delay:.1s">We didn't start a coffee brand.<br>We <em>fixed a broken
+          system.</em></h1>
+      <p class="hero-body reveal" style="transition-delay:.2s">Specialty coffee in Bangalore used to mean waiting for
+        days. We thought that was absurd — so we built the fastest way to get the best beans to your door. 45 minutes.
+        Every order. No exceptions.</p>
+      <div class="hero-actions reveal" style="transition-delay:.3s">
+        <a href="/" class="hero-cta">Start Ordering →</a>
+        <span class="hero-badge">
+          <span class="pulse"></span>
+          Live across all of Bangalore
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- NUMBERS -->
+  <section class="numbers">
+    <div class="numbers-inner stagger">
+      <div class="number-item reveal" style="--i:0">
+        <div class="num">45</div>
+        <div class="num-label">Minute Delivery</div>
+      </div>
+      <div class="number-item reveal" style="--i:1">
+        <div class="num">All</div>
+        <div class="num-label">of Bangalore</div>
+      </div>
+      <div class="number-item reveal" style="--i:2">
+        <div class="num">100%</div>
+        <div class="num-label">Specialty Grade</div>
+      </div>
     </div>
   </section>
 
   <!-- STORY -->
   <section class="story">
-    <p class="eyebrow">The Origin</p>
-    <h2>How Grind started</h2>
-    <p>It started with brain fog and a forgotten coffee order. Sambhav, our founder, was running on empty — not because good coffee didn't exist in Bangalore, but because getting it delivered fast felt impossible. He was maintaining a Notion tracker just to remember when to reorder. He'd still forget. And when he did order, it took days.</p>
-    <p>The existing options were either too slow, too generic, or both. Specialty coffee — the kind that actually has a story behind the bean — was treated like a slow-moving luxury product when it didn't have to be.</p>
-    <p>So Sambhav built Grind. The idea was simple: treat specialty coffee the way you'd treat any other essential. Make it fast. Keep it good. Don't make people think about it — just get it to them.</p>
-    <p>What started as a personal frustration is now a quick commerce platform serving coffee lovers across all of Bangalore. Every order is a small proof that the wait wasn't worth it.</p>
+    <p class="eyebrow reveal">The Origin</p>
+    <h2 class="reveal">How Grind started</h2>
+    <p class="reveal">It started with brain fog and a forgotten coffee order. Sambhav, our founder, was running on empty
+      — not because good coffee didn't exist in Bangalore, but because <strong>getting it delivered fast felt
+        impossible</strong>. He was maintaining a Notion tracker just to remember when to reorder. He'd still forget.
+      And when he did order, it took days.</p>
+    <blockquote class="story-quote reveal">"Why does specialty coffee — something I need every single day — have to feel
+      like planning a vacation?"</blockquote>
+    <p class="reveal">The existing options were either too slow, too generic, or both. Specialty coffee — the kind that
+      actually has a story behind the bean — was treated like a slow-moving luxury product when it didn't have to be.
+    </p>
+    <p class="reveal">So Sambhav built Grind. The idea was simple: <strong>treat specialty coffee the way you'd treat
+        any other essential</strong>. Make it fast. Keep it good. Don't make people think about it — just get it to
+      them.</p>
+    <p class="reveal">What started as a personal frustration is now a quick commerce platform serving coffee lovers
+      across all of Bangalore. Every order is a small proof that the wait wasn't worth it.</p>
   </section>
 
   <!-- VALUES -->
   <section class="values">
     <div class="values-inner">
-      <p class="eyebrow">What drives us</p>
-      <h2>Three things we don't compromise on</h2>
-      <div class="values-grid">
-        <div class="value-card">
+      <p class="eyebrow reveal">What drives us</p>
+      <h2 class="reveal">Three things we don't compromise on</h2>
+      <div class="values-grid stagger">
+        <div class="value-card reveal" style="--i:0">
+          <span class="value-icon">⚡</span>
           <h3>Speed is the product</h3>
-          <p>Quick commerce isn't a feature — it's the entire point. If you have to plan your coffee order days in advance, something is broken.</p>
+          <p>Quick commerce isn't a feature — it's the entire point. If you have to plan your coffee order days in
+            advance, something is broken.</p>
         </div>
-        <div class="value-card">
+        <div class="value-card reveal" style="--i:1">
+          <span class="value-icon">☕</span>
           <h3>Specialty, not generic</h3>
-          <p>We only carry coffees that have something interesting to say — single origins, thoughtful roasts, beans with provenance. No filler.</p>
+          <p>We only carry coffees that have something interesting to say — single origins, thoughtful roasts, beans
+            with provenance. No filler.</p>
         </div>
-        <div class="value-card">
+        <div class="value-card reveal" style="--i:2">
+          <span class="value-icon">🧪</span>
           <h3>Built to experiment</h3>
-          <p>Sambhav describes himself as a nerd who loves to experiment. That means we're always testing new origins, formats, and ideas — if it's good, it makes the cut.</p>
+          <p>Sambhav describes himself as a nerd who loves to experiment. That means we're always testing new origins,
+            formats, and ideas — if it's good, it makes the cut.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="timeline">
+    <p class="eyebrow reveal">The Journey</p>
+    <h2 class="reveal">Key milestones</h2>
+
+    <div class="tl-item reveal">
+      <div class="tl-marker">
+        <div class="tl-dot"></div>
+      </div>
+      <div class="tl-content">
+        <p class="tl-date">The Beginning</p>
+        <h4>The frustration that started it all</h4>
+        <p>Sambhav realizes he's spending more time tracking coffee orders than actually drinking coffee. The idea for
+          Grind is born.</p>
+      </div>
+    </div>
+
+    <div class="tl-item reveal">
+      <div class="tl-marker">
+        <div class="tl-dot"></div>
+      </div>
+      <div class="tl-content">
+        <p class="tl-date">Building Phase</p>
+        <h4>From idea to app</h4>
+        <p>The first version of Grind goes live — a streamlined platform connecting Bangalore's best roasters with
+          coffee lovers who don't want to wait.</p>
+      </div>
+    </div>
+
+    <div class="tl-item reveal">
+      <div class="tl-marker">
+        <div class="tl-dot"></div>
+      </div>
+      <div class="tl-content">
+        <p class="tl-date">Now</p>
+        <h4>Delivering across all of Bangalore</h4>
+        <p>Specialty coffee, delivered to your door in 45 minutes. Multiple roasters, dozens of origins, zero
+          compromises on quality.</p>
       </div>
     </div>
   </section>
 
   <!-- FOUNDER -->
   <section class="founder">
-    <div class="founder-card">
+    <div class="founder-card reveal-scale">
       <div class="founder-img">
-        <img src="../sambhav.jpg" alt="Sambhav Patro" />
+        <img src="/sambhav.jpg" alt="Sambhav Patro" />
       </div>
       <div class="founder-text">
         <p class="eyebrow">The Founder</p>
         <h3>Sambhav Patro</h3>
         <p class="title">Founder, Grind · BBA Entrepreneurship, Jain University CMS</p>
-        <p>Sambhav is a student at Jain University — studying entrepreneurship by day and building Grind the rest of the time. He calls himself a student of life more than anything else: someone who runs toward problems that annoy him and builds until they don't.</p>
-        <p>Grind is his answer to a problem he lived every single day. He's also the kind of founder who will text you if the coffee was bad.</p>
-        <a href="https://www.linkedin.com/in/p-sambhav-patro-42b788280" target="_blank" rel="noopener" class="linkedin-link">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.47 2H3.53A1.45 1.45 0 0 0 2 3.47v17.06A1.45 1.45 0 0 0 3.47 22h17.06A1.45 1.45 0 0 0 22 20.53V3.47A1.45 1.45 0 0 0 20.47 2ZM8.09 18.74h-3v-9h3v9ZM6.59 8.48a1.56 1.56 0 1 1 0-3.12 1.56 1.56 0 1 1 0 3.12Zm12.32 10.26h-3v-4.83c0-1.21-.43-2-1.52-2A1.65 1.65 0 0 0 12.85 13a2 2 0 0 0-.1.73v5h-3v-9h3v1.2a3 3 0 0 1 2.71-1.5c2 0 3.45 1.29 3.45 4.06v5.25Z"/></svg>
+        <p>Sambhav is a student at Jain University — studying entrepreneurship by day and building Grind the rest of the
+          time. He calls himself a student of life more than anything else: someone who runs toward problems that annoy
+          him and builds until they don't.</p>
+        <p>Grind is his answer to a problem he lived every single day. He's also the kind of founder who will text you
+          if the coffee was bad.</p>
+        <a href="https://www.linkedin.com/in/p-sambhav-patro-42b788280" target="_blank" rel="noopener"
+          class="linkedin-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M20.47 2H3.53A1.45 1.45 0 0 0 2 3.47v17.06A1.45 1.45 0 0 0 3.47 22h17.06A1.45 1.45 0 0 0 22 20.53V3.47A1.45 1.45 0 0 0 20.47 2ZM8.09 18.74h-3v-9h3v9ZM6.59 8.48a1.56 1.56 0 1 1 0-3.12 1.56 1.56 0 1 1 0 3.12Zm12.32 10.26h-3v-4.83c0-1.21-.43-2-1.52-2A1.65 1.65 0 0 0 12.85 13a2 2 0 0 0-.1.73v5h-3v-9h3v1.2a3 3 0 0 1 2.71-1.5c2 0 3.45 1.29 3.45 4.06v5.25Z" />
+          </svg>
           Connect on LinkedIn →
         </a>
       </div>
@@ -434,16 +1061,49 @@
 
   <!-- CTA -->
   <section class="cta">
-    <p class="eyebrow">Ready to try it?</p>
-    <h2>Your next cup shouldn't take days</h2>
-    <p class="cta-body">Specialty coffee, delivered in 45 minutes across Bangalore.</p>
-    <a href="/" class="cta-btn">Order Now →</a>
+    <p class="eyebrow reveal" style="justify-content:center">Ready to try it?</p>
+    <h2 class="reveal">Your next cup shouldn't take days</h2>
+    <p class="cta-body reveal">Specialty coffee, delivered in 45 minutes across Bangalore.</p>
+    <a href="/" class="cta-btn reveal">Order Now →</a>
   </section>
 
   <!-- FOOTER -->
   <footer class="footer">
-    <p>© 2025 Grind. Bangalore. | Specialty coffee, fast.</p>
+    <div class="footer-inner">
+      <div class="footer-logo">grind<span style="color:#4ade80">.</span></div>
+      <div class="footer-contact">
+        <a href="tel:+918114990288">📞 +91 8114990288</a>
+        <a href="mailto:support@thatsgrind.com">✉️ support@thatsgrind.com</a>
+      </div>
+      <p class="footer-copy">© 2025 Grind. Bangalore. | Specialty coffee, fast.</p>
+    </div>
   </footer>
 
+  <!-- SCROLL REVEAL JS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      reveals.forEach(el => observer.observe(el));
+
+      // Trigger hero elements immediately
+      document.querySelectorAll('.hero .reveal').forEach(el => {
+        setTimeout(() => el.classList.add('visible'), 100);
+      });
+    });
+  </script>
+
 </body>
+
 </html>

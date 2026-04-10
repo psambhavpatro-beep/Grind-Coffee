@@ -26,6 +26,7 @@ export default function Nav({ user, cartCount, onShop, onRoasters, onDash, onOrd
                 <div className="nav-links">
                     <button style={S.nb} onClick={onShop}>Shop</button>
                     <button style={S.nb} onClick={onRoasters}>Roasters</button>
+                    <a href="/about" style={{ ...S.nb, textDecoration: 'none' }}>About</a>
 
                     {(user?.role === "admin" || user?.role === "vendor") && (
                         <button style={S.nb} onClick={onDash}>Dashboard</button>
@@ -82,6 +83,7 @@ export default function Nav({ user, cartCount, onShop, onRoasters, onDash, onOrd
                 <div className="mobile-menu">
                     <button onClick={() => go(onShop)}>🛍 Shop</button>
                     <button onClick={() => go(onRoasters)}>☕ Roasters</button>
+                    <a href="/about" style={{ textAlign: 'left', padding: '13px 24px', fontSize: 15, width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'sans-serif', color: '#111', fontWeight: 600, borderBottom: '1px solid #f0f0f0', textDecoration: 'none', display: 'block' }}>📖 About</a>
 
                     {(user?.role === "admin" || user?.role === "vendor") && (
                         <button onClick={() => go(onDash)}>📊 Dashboard</button>
