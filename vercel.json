@@ -34,6 +34,22 @@
             "destination": "/about/index.html"
         },
         {
+            "source": "/policies/terms",
+            "destination": "/policies/terms/index.html"
+        },
+        {
+            "source": "/policies/privacy",
+            "destination": "/policies/privacy/index.html"
+        },
+        {
+            "source": "/policies/refunds",
+            "destination": "/policies/refunds/index.html"
+        },
+        {
+            "source": "/policies/shipping",
+            "destination": "/policies/shipping/index.html"
+        },
+        {
             "source": "/deliver/:slug",
             "destination": "/deliver/:slug/index.html"
         },

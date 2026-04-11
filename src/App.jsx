@@ -524,6 +524,15 @@ export default function App() {
           <a href="tel:+918114990288" style={{ color: "#ddd", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}>📞 +91 8114990288</a>
           <a href="mailto:support@thatsgrind.com" style={{ color: "#ddd", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}>✉️ support@thatsgrind.com</a>
         </div>
+        <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 40, fontSize: 12, fontFamily: "sans-serif", color: "#888", flexWrap: "wrap" }}>
+          <a href="/policies/terms" style={{ color: "#888", textDecoration: "none" }}>Terms</a>
+          <span>|</span>
+          <a href="/policies/privacy" style={{ color: "#888", textDecoration: "none" }}>Privacy</a>
+          <span>|</span>
+          <a href="/policies/refunds" style={{ color: "#888", textDecoration: "none" }}>Refunds</a>
+          <span>|</span>
+          <a href="/policies/shipping" style={{ color: "#888", textDecoration: "none" }}>Shipping</a>
+        </div>
       </footer>
 
       {/* Modals */}
